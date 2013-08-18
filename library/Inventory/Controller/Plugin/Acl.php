@@ -10,7 +10,8 @@ class Inventory_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$this->_publicModules = array();
 		$this->_publicControllers = array('default:error');
 		$this->_publicActions = array(
-				  'default:auth:login'
+		          'default:index:index'
+				, 'default:auth:login'
 				, 'default:auth:forgot-password'
 				, 'default:auth:reset-password'
 				, 'default:auth:logout'
