@@ -5,6 +5,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	{
 		defined('SESSION') || define('SESSION', 'User_Session');
 	    defined('TOKEN') || define('TOKEN', 'User_Token');
+	    defined('API_URL') || define('API_URL', 'Api_Url');
 	}
 	
 	protected function _initAutoload()
@@ -31,6 +32,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 	protected function _initApplication()
 	{
 	    date_default_timezone_set($this->getOption('default_time_zone'));
+	    Zend_Registry::set(API_URL, $this->getOption('api_url'));
 	}
 
     protected function _initSession()
@@ -43,6 +45,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $frontController = Zend_Controller_Front::getInstance();
         $frontController->registerPlugin(new Inventory_Controller_Plugin_Init());
-        $frontController->registerPlugin(new Inventory_Controller_Plugin_Acl());
+        $frontController->registerPlugin(new Inventory_Controller_Plugin_Acl($this->getOption('acl')));
     }
 }

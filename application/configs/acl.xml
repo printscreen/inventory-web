@@ -1,0 +1,12 @@
+<acl>
+    <userType name="admin" id="1">
+        <resource>admin:index:index</resource>
+        <resource>admin:employee:view</resource>
+    </userType>
+    <userType name="employee" id="2">
+        <resource>admin:index:index</resource>
+    </userType>
+    <userType name="customer" id="3">
+        <resource>home:index:index</resource>
+    </userType>
+</acl>

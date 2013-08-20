@@ -1,0 +1,13 @@
+<div class="container">
+	<form class="form-signin" method="post" action="/auth/login">
+    	<h2 class="form-signin-heading">MyStoragePal.com</h2>
+        <?php echo $this->form->getElement('email'); ?>
+        <?php echo $this->form->getElement('password'); ?>
+        <?php if($this->message) { ?>
+    	<div class="alert alert-error">
+    	    <?= $this->message ?>
+    	</div>
+        <?php } ?>
+        <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+   </form>
+</div>
