@@ -1,0 +1,32 @@
+<?= $this->doctype(); ?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="favicon.ico" />
+        <title>Inventory Tracker</title>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="/css/site.css" rel="stylesheet" media="screen">
+        <link href="/css/admin/admin.css" rel="stylesheet" media="screen">
+    </head>
+    <?php echo $this->partial('partials/body.phtml', 'default'); ?> 
+        <div class="container">
+        	<div class="masthead">
+        		<div class="row-fluid">
+        			<div class="span10"><h3 class="muted">My Storage Pal.com</h3></div>
+        			<div class="span2"><a href="/auth/logout" class="pull-right">logout</a></div>
+        		</div>
+				<?php echo $this->partial('partials/admin-menu.phtml', 'admin'); ?>              				
+      		</div>
+      		<hr>
+            <?= $this->layout()->content; ?>
+		</div>
+   		<script src="/js/jquery-2.0.3.min.js" type="text/javascript"></script>
+    	<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+    	<script src="/js/jquery.validate.min.js" type="text/javascript"></script>
+    	<script src="/js/site.js" type="text/javascript"></script>
+    	<?= $this->headScript() ?>
+    </body>
+</html>

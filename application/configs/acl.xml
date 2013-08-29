@@ -1,6 +1,7 @@
 <acl>
     <userType name="admin" id="1">
         <resource>admin:index:index</resource>
+        <resource>admin:location:index</resource>
         <resource>admin:employee:view</resource>
     </userType>
     <userType name="employee" id="2">
