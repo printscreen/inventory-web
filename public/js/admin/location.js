@@ -12,8 +12,16 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
               'admin/location/edit'
             , $('#location-form form').serializeObject()
             , function(result) {
-                methods.getLocations();
-                $('#location-form').modal('hide');
+                if(result.success) {
+                    methods.getLocations();
+                    $('#location-form').modal('hide');
+                } else {
+                    base.displayFormErrors(
+                        $('#location-form form'),
+                        result.errors
+                    );
+                }
+                
             }
         );
     };

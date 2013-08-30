@@ -19,8 +19,8 @@ var Inventory = function (parameters) {
         }
     };
     
-    this.displayFormErrors = function (form, validator) {
-        $.each(validator.errorMap, function (key, val) {
+    this.displayFormErrors = function (form, errors) {
+        $.each(errors.errorMap || errors, function (key, val) {
             $('[name=\"' + key + '\"]').closest('.control-group').find('.help-block').html(val);
             $('[name=\"' + key + '\"]').closest('.control-group').addClass('error');
         });

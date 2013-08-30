@@ -1,0 +1,98 @@
+<ul class="nav nav-tabs" id="employee-tabs">
+  <li class="active"><a href="#manage">Manage</a></li>
+  <li><a href="#locations">Employee Locations</a></li>
+</ul>
+<div class="tab-content">
+	<div class="tab-pane active" id="manage">
+        <div class="row-fluid">
+        	<div class="pull-right">
+        		<button type="button" class="btn" data-toggle="button" id="active-user">Show: Active</button>
+        		<a href="#" class="btn btn-primary" id="add-user">Add</a>
+        	</div>
+        </div>
+        <br />
+        <table class="users table table-hover">
+        	<thead>
+        		<tr>
+        			<th>First Name</th>
+        			<th>Last Name</th>
+        			<th>Email</th>
+        			<th>Active</th>
+        		</tr>
+        	</thead>
+        	<tbody>
+        	
+        	</tbody>
+        </table>
+	</div>
+	<div class="tab-pane user-locations" id="locations">
+		<form>
+			<div class="row-fluid">
+				<select id="employee-search"></select>
+			</div>
+			<div class="row-fluid">
+				<div class="span5">
+					<select class="manage-locations" name="add" multiple></select>
+				</div>
+				<div class="span2">
+					<div class="row-fluid pagination-centered">
+						<a href="#" data-toggle="add" class="btn btn-success modify-location" >Add &gt;&gt;</a>
+					</div>
+					<div class="row-fluid pagination-centered">
+						<a href="#" data-toggle="delete" class="btn btn-danger modify-location" >&lt;&lt; Delete</a>
+					</div>
+				</div>
+				<div class="span5">
+					<select class="manage-locations" name="delete" multiple></select>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="modal hide fade" id="user-form">
+	<div class="modal-header">
+    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    	<h3></h3>
+  	</div>
+	<div class="modal-body">
+    	<form class="form-horizontal">
+    		<div class="control-group">
+                <label class="control-label" for="inputFirstName">First Name</label>
+                <div class="controls">
+                	<input type="hidden" name="userId" />
+                	<input type="text" name="firstName" placeholder="First Name" />
+                	<p class="help-block"></p>
+                </div>
+  			</div>
+  			<div class="control-group">
+                <label class="control-label" for="inputLastName">Last Name</label>
+                <div class="controls">
+                	<input type="text" name="lastName" placeholder="Last Name" />
+                	<p class="help-block"></p>
+                </div>
+  			</div>
+  			<div class="control-group">
+                <label class="control-label" for="inputEmail">Email</label>
+                <div class="controls">
+                	<input type="text" name="email" placeholder="Email" />
+                	<p class="help-block"></p>
+                </div>
+  			</div>
+  			<div class="control-group">
+                <label class="control-label" for="inputPhoneNumber">Active</label>
+                <div class="controls">
+                	<select name="active">
+                		<option value="">Select a value</option>
+                		<option value="true">Yes</option>
+                		<option value="false">No</option>
+                	</select>
+                	<p class="help-block"></p>
+                </div>
+  			</div>
+    	</form>
+	</div>
+	<div class="modal-footer">
+    	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+    	<a href="#" class="btn btn-primary" id="submit-form">Save</a>
+	</div>
+</div>
