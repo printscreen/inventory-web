@@ -5,7 +5,8 @@ var Inventory = function (parameters) {
     options = {
        appUrl : 'http://mystoragepal.com/',
        apiUrl : 'http://api.mystoragepal.com/',
-       token : function () {}
+       token : function () {},
+       userId : function () {}
     };
     
     $.extend(options, parameters);
@@ -51,6 +52,10 @@ var Inventory = function (parameters) {
         return options.token();
     };
     
+    this.getUserId = function () {
+        return options.userId();
+    };
+    
     this.dispatch = function () {
         methods.init();
     };
@@ -63,6 +68,9 @@ $(document).ready(function(){
     var inventory = new Inventory({
         token : function () {
             return $('body').data('token');
+        },
+        userId : function () {
+            return $('body').data('user-id');
         }
     });
     inventory.dispatch();

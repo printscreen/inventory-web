@@ -48,3 +48,12 @@ body {
 .user-locations a {
 	margin-bottom: 9px;
 }
+.filters {
+    margin-top: 4px;
+    margin-left: 0px !important;
+    padding-bottom:3px;
+    border-bottom: 1px solid #DDDDDD;	
+}
+.filters form, .filters select {
+    margin: 0px;	
+}

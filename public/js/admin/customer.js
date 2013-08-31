@@ -1,19 +1,20 @@
-Inventory.prototype.modules.adminEmployee = function (base, index) {
+Inventory.prototype.modules.adminCustomer = function (base, index) {
     "use strict";
     var self = this,
         methods = {},
         sort = 2,
         offset = 0,
         limit = 20,
-        active = true;
+        active = true,
+        locationId = null;
     
     methods.saveForm = function () {
         base.makeApiCall(
-              'admin/user/edit-employee'
+              'admin/user/edit-customer'
             , $('#user-form form').serializeObject()
             , function(result) {
                 if(result.success) {
-                    methods.getEmployees();
+                    methods.getCustomers();
                     $('#user-form').modal('hide'); 
                 } else {
                     base.displayFormErrors(
@@ -27,7 +28,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
     
     methods.populate = function (users) {
         var body = '';
-        var options = '<option value="">Select an Employee</option>';
+        var options = '<option value="">Select an Customer</option>';
         $.each(users, function (key, val) {
             body += 
                 '<tr data-user-id="' + val.userId + '">' +
@@ -42,7 +43,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
                 '</option>';
         });
         $('table.users tbody').html(body);
-        $('#employee-search').html(options);
+        $('#customer-search').html(options);
     };
     
     methods.populateForm = function (user) {
@@ -54,32 +55,31 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
         form.find('select[name="active"]').val((user.active == '1' ? 'true' : 'false'));
     };
     
-    methods.populateLocations = function(locations, select, userId) {
-        var options = '';
+    methods.populateLocations = function(locations, select, defaultOption) {
+        var options = defaultOption ? '<option value="">Select a Location</option>' : '';
         $.each(locations, function (key, val) {
             options += 
-                '<option ' +
-                'data-user-id="' + userId + '" ' +
-                'value="' + val.locationId + '">'
+                '<option value="' + val.locationId + '">'
                     + val.name +
                 '</option>';
         });
         select.html(options);
     };
     
-    methods.getEmployees = function () {
-        base.makeApiCall('admin/user/view-employee', {
+    methods.getCustomers = function () {
+        base.makeApiCall('admin/user/view-customer', {
                 sort: sort,
                 offset: offset,
                 limit: limit,
-                active: active
+                active: active,
+                locationId: locationId
             }, function(result) {
                 methods.populate(result.users);  
             }
         );
     };
     
-    methods.getEmployee = function (userId) {
+    methods.getCustomer = function (userId) {
         base.makeApiCall('admin/user/get', {
                 userId: userId
             }, function(result) {
@@ -105,7 +105,15 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
                     required: true,
                     email: true
                 },
-                active: 'required'
+                active: 'required',
+                locationId:  {
+                    required: function(){ 
+                        return $('#user-form form')
+                        .find('input[name="userId"]')
+                        .is(':disabled');
+                    },
+                    digits: true
+                }
             },
             messages : {
                 firstName: 'Please enter a first name',
@@ -122,19 +130,19 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
     methods.showForm = function (userId) {
         $('#user-form form').clearForm();
         if(!isNaN(parseInt(userId))) {
-            $('#temp-password').hide();
+            $('#temp-password, #default-user-location').hide();
             $('#user-form form').find('input[name="userId"]').prop('disabled', false);
-            methods.getEmployee(userId);
+            methods.getCustomer(userId);
             $('.modal-header h3').html('Edit Employee');
         } else {
             $('#user-form form').find('input[name="userId"]').prop('disabled', true);
             $('.modal-header h3').html('Add Employee');
-            $('#temp-password').show();
+            $('#temp-password, #default-user-location').show();
         }
         $('#user-form').modal('show');
     };
     
-    methods.getLocations = function (userId, available, select) {
+    methods.getLocations = function (userId, available, select, defaultOption) {
         base.makeApiCall('admin/user/view-user-location', {
                 userId: userId,
                 available: available
@@ -142,8 +150,8 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
                 methods.populateLocations(
                     result.userLocations.userLocations, 
                     select, 
-                    userId
-                );  
+                    defaultOption
+                );
             }
         );
     };
@@ -172,7 +180,18 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
     
     this.dispatch = function () {
         methods.form();
-        methods.getEmployees();
+        methods.getCustomers();
+        methods.getLocations(
+            base.getUserId(),
+            true,
+            $('#filter-locations, #default-user-location select'),
+            true
+        );
+        $('#filter-locations').change(function() {
+           locationId = parseInt($(this).val()) || null;
+           $('#locations select').html('');
+           methods.getCustomers();
+        });
         $('.users tbody').on('click', 'tr', function() {
             methods.showForm($(this).data('user-id'));
         });
@@ -194,7 +213,8 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
                 active = false;
                 $(this).html('Show: Inactive');
             }
-            methods.getEmployees();
+            $('#locations select').html('');
+            methods.getCustomers();
         });
         $('#employee-tabs a').click(function (e) {
             e.preventDefault();
@@ -204,7 +224,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             $('#locations .manage-locations').html('');
             $('#locations form').clearForm();
         });
-        $('#employee-search').change(function () {
+        $('#customer-search').change(function () {
             if($(this).val() === '') {
                 $('#locations .manage-locations').html('');
                 return;

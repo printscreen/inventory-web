@@ -1,12 +1,25 @@
-<ul class="nav nav-tabs" id="employee-tabs">
-  <li class="active"><a href="#manage">Manage</a></li>
-  <li><a href="#locations">Employee Locations</a></li>
-</ul>
+<div class="row-fluid">
+	<div class="span6">
+		<ul class="nav nav-tabs" id="employee-tabs">
+  			<li class="active"><a href="#manage">Manage</a></li>
+  			<li><a href="#locations">Customer Locations</a></li>
+		</ul>
+	</div>
+	<div class="span6 filters">
+		<div class="pull-right">
+			<form>
+				<select id="filter-locations"></select>
+				<button type="button" class="btn" data-toggle="button" id="active-user">Show: Active</button>
+			</form>
+			
+		</div>
+	</div>
+</div>
+
 <div class="tab-content">
 	<div class="tab-pane active" id="manage">
         <div class="row-fluid">
-        	<div class="pull-right">
-        		<button type="button" class="btn" data-toggle="button" id="active-user">Show: Active</button>
+        	<div class="pull-right">     		
         		<a href="#" class="btn btn-primary" id="add-user">Add</a>
         	</div>
         </div>
@@ -28,7 +41,7 @@
 	<div class="tab-pane user-locations" id="locations">
 		<form>
 			<div class="row-fluid">
-				<select id="employee-search"></select>
+				<select id="customer-search"></select>
 			</div>
 			<div class="row-fluid">
 				<div class="span5">
@@ -79,13 +92,20 @@
                 </div>
   			</div>
   			<div class="control-group">
-                <label class="control-label" for="inputPhoneNumber">Active</label>
+                <label class="control-label" for="active">Active</label>
                 <div class="controls">
                 	<select name="active">
                 		<option value="">Select a value</option>
                 		<option value="true">Yes</option>
                 		<option value="false">No</option>
                 	</select>
+                	<p class="help-block"></p>
+                </div>
+  			</div>
+  			<div class="control-group" id="default-user-location">
+                <label class="control-label" for="active">Default Location</label>
+                <div class="controls">
+                	<select name="locationId"></select>
                 	<p class="help-block"></p>
                 </div>
   			</div>
