@@ -2,7 +2,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
     "use strict";
     var self = this,
         methods = {},
-        sort = 2,
+        sort = 3,
         offset = 0,
         limit = 20,
         active = true,
@@ -37,9 +37,10 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
                     '<td>'+ val.email + '</td>' +
                     '<td>'+ (val.active == '1' ? 'Yes' : 'No') + '</td>' +
                 '</tr>';
-            options += 
-                '<option value="'+val.userId+'">'
-                    + val.lastName + ', ' + val.firstName +
+            options += '<option value="' + val.userId + '">' +
+                val.lastName + ',' +
+                val.firstName + ': ' +
+                val.email +
                 '</option>';
         });
         $('table.users tbody').html(body);
@@ -161,7 +162,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             from = isAdd ? $('#locations select[name="add"]') : $('#locations select[name="delete"]'),
             options = from.find('option:selected').remove(),
             locationIds = [],
-            userId = $(options.get(0)).data('user-id');
+            userId = $('#customer-search').val();
             
         $.each(options, function (key, val) {
             locationIds.push($(val).val());
