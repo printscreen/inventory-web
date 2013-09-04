@@ -11,10 +11,10 @@
     <li <?= $url=='/admin/location/index'?'class="active"':''; ?>><a href="/admin/location/index">Locations</a></li>
 	<li <?= $url=='/admin/user/employee'?'class="active"':''; ?>><a href="/admin/user/employee">Employees</a></li>
 	<li <?= $url=='/admin/user/customer'?'class="active"':''; ?>><a href="/admin/user/customer">Customers</a></li>
-	<li <?= $url=='/admin/unit/view-unit'||$url=='/admin/unit/edit-unit'||$url=='/admin/unit/edit-unit-users'?'class="active"':''; ?>><a href="/admin/unit/view-unit">Units</a></li>
+	<li <?= $url=='/admin/unit/index'?'class="active"':''; ?>><a href="/admin/unit/index">Units</a></li>
 <?php } else if(Zend_Registry::get(SESSION)->userTypeId == Model_User::USER_TYPE_EMPLOYEE) { ?>
 	<li <?= $url=='/admin/user/customer'?'class="active"':''; ?>><a href="/admin/user/customer">Customers</a></li>
-	<li <?= $url=='/admin/unit/view-unit'||$url=='/admin/unit/edit-unit'||$url=='/admin/unit/edit-unit-users'?'class="active"':''; ?>><a href="/admin/unit/view-unit">Units</a></li>
+	<li <?= $url=='/admin/unit/index'?'class="active"':''; ?>><a href="/admin/unit/index">Units</a></li>
 <?php } ?>
 </ul>
 </div>

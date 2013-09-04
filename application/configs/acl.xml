@@ -4,10 +4,12 @@
         <resource>admin:location:index</resource>
         <resource>admin:user:employee</resource>
         <resource>admin:user:customer</resource>
+        <resource>admin:unit:index</resource>
     </userType>
     <userType name="employee" id="2">
         <resource>admin:index:index</resource>
         <resource>admin:user:customer</resource>
+        <resource>admin:unit:index</resource>
     </userType>
     <userType name="customer" id="3">
         <resource>home:index:index</resource>
