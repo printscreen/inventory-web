@@ -105,7 +105,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         var body = '';
         $.each(users, function (key, val) {
             body += 
-                '<tr ' + (val.active == '1' ? 'class="info"' : '') + 
+                '<tr ' + (val.active == '1' ? 'class="success"' : '') + 
                 'data-unit-id="' + unitId + 
                 '" data-user-id="' + val.userId + '">' +
                     '<td>'+ val.firstName + '</td>' +
@@ -113,8 +113,8 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
                     '<td>'+ val.email + '</td>' +
                     '<td>'+ (val.active == '1' ? 'Yes' : 'No') + 
                         '<span class="edit-unit-users pull-right">' +
-                            '<a href="#" data-action="delete" class="btn btn-danger"><i class="icon-trash icon-white"></i> -</a>' +
-                            '<a href="#" data-action="add" class="btn btn-primary"><i class="icon-check icon-white"></i> +</a>' +
+                            '<a href="#" data-action="delete" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></a>' +
+                            '<a href="#" data-action="add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></a>' +
                         '</span>' +
                     '</td>' +
                 '</tr>';
@@ -222,24 +222,26 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             },
             showErrors: function () {},
             invalidHandler: base.displayFormErrors,
-            submitHandler: methods.saveAssignForm({
-                userId: $('#assign-form form select[name="userId"]').val(),
-                unitId: $('#assign-form form input[name="unitId"]').val(),
-                type: 'add'
-            })
+            submitHandler: function() {
+                methods.saveAssignForm({
+                    userId: $('#assign-form form select[name="userId"]').val(),
+                    unitId: $('#assign-form form input[name="unitId"]').val(),
+                    type: 'add'
+                })
+                return false;
+            }
         });
     };
     
     methods.showForm = function (unitId, locationId) {
         $('#unit-form form').clearForm();
-        base.clearErrors($('#unit-form form'));
         if(!isNaN(parseInt(unitId))) {
             $('#unit-form form').find('input[name="unitId"]').prop('disabled', false);
             methods.getUnit(unitId);
-            $('#unit-form .modal-header h3').html('Edit Unit');
+            $('#unit-form .modal-header h4').html('Edit Unit');
         } else {
             $('#unit-form form').find('input[name="unitId"]').prop('disabled', true);
-            $('#unit-form .modal-header h3').html('Add Unit');
+            $('#unit-form .modal-header h4').html('Add Unit');
             $('#unit-form form').find('input[name="locationId"]').val(locationId);
         }
         $('#unit-form').modal('show');
@@ -247,8 +249,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
     
     methods.showAssignForm = function (isAdd) {
         $('#assign-customer form').clearForm();
-        base.clearErrors($('#assign-customer form'));
-        $('#assign-form .modal-header h3').html(isAdd ? 'Assign New Customer' : 'Edit Customer Assignment');
+        $('#assign-form .modal-header h4').html(isAdd ? 'Assign New Customer' : 'Edit Customer Assignment');
         $('#delete-user-unit').toggle(!isAdd);
         $('#assign-form').modal('show');
     };
@@ -319,7 +320,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             $('#unit-form form').submit();
         });
         $('#submit-assign-form').click(function () {
-           $('#assign-form form').submit(); 
+           $('#assign-form form').submit();
         });
         $('#active-user').click(function(){
             if($(this).hasClass('active')) {

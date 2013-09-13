@@ -12,6 +12,6 @@
         <resource>admin:unit:index</resource>
     </userType>
     <userType name="customer" id="3">
-        <resource>home:index:index</resource>
+        <resource>default:home:index</resource>
     </userType>
 </acl>

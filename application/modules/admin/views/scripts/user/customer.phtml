@@ -1,30 +1,28 @@
-<div class="row-fluid">
-	<div class="span6">
-		<ul class="nav nav-tabs" id="employee-tabs">
+<div class="row">
+	<div class="col-md-4">
+		<ul class="nav nav-pills" id="employee-tabs">
   			<li class="active"><a href="#manage">Manage</a></li>
   			<li><a href="#locations">Customer Locations</a></li>
 		</ul>
 	</div>
-	<div class="span6 filters">
-		<div class="pull-right">
-			<form>
-				<select id="filter-locations"></select>
-				<button type="button" class="btn" data-toggle="button" id="active-user">Show: Active</button>
-			</form>
-			
-		</div>
+	<div class="col-md-8 filters">
+        <a href="#" class="btn btn-primary pull-right" id="add-user"><span class="glyphicon glyphicon-plus"></span></a>
+        <button type="button" class="btn btn-default pull-right" data-toggle="button" id="active-user">Show: Active</button>
+        <form class="pull-right">
+            <select class="form-control" id="filter-locations"></select>
+        </form>
 	</div>
 </div>
 
 <div class="tab-content">
 	<div class="tab-pane active" id="manage">
-        <div class="row-fluid">
+        <div class="row">
         	<div class="pull-right">     		
-        		<a href="#" class="btn btn-primary" id="add-user"><i class="icon-user icon-white"></i> +</a>
+        		
         	</div>
         </div>
         <br />
-        <table class="users table table-hover">
+        <table class="users table table-responsive table-hover">
         	<thead>
         		<tr>
         			<th>First Name</th>
@@ -39,83 +37,82 @@
         </table>
 	</div>
 	<div class="tab-pane user-locations" id="locations">
-		<form>
-			<div class="row-fluid">
-				<select id="customer-search"></select>
-			</div>
-			<div class="row-fluid">
-				<div class="span5">
-					<select class="manage-locations" name="add" multiple></select>
-				</div>
-				<div class="span2">
-					<div class="row-fluid pagination-centered">
-						<a href="#" data-toggle="add" class="btn btn-success modify-location" >Add &gt;&gt;</a>
-					</div>
-					<div class="row-fluid pagination-centered">
-						<a href="#" data-toggle="delete" class="btn btn-danger modify-location" >&lt;&lt; Delete</a>
-					</div>
-				</div>
-				<div class="span5">
-					<select class="manage-locations" name="delete" multiple></select>
-				</div>
-			</div>
-		</form>
-	</div>
+        <form>
+            <div class="row">
+                <div class="col-md-3">
+                    <select class="form-control" id="customer-search"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <select class="manage-locations form-control input-lg" name="add" multiple></select>
+                </div>
+                <div class="col-md-2">
+                    <div class="row text-center">
+                        <a href="#" data-toggle="add" class="btn btn-success modify-location" >Add &gt;&gt;</a>
+                    </div>
+                    <div class="row text-center">
+                        <a href="#" data-toggle="delete" class="btn btn-danger modify-location" >&lt;&lt; Delete</a>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <select class="manage-locations form-control input-lg" name="delete" multiple></select>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-<div class="modal hide fade" id="user-form">
-	<div class="modal-header">
-    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    	<h3></h3>
-  	</div>
-	<div class="modal-body">
-    	<form class="form-horizontal">
-    		<div class="control-group">
-                <label class="control-label" for="inputFirstName">First Name</label>
-                <div class="controls">
-                	<input type="hidden" name="userId" />
-                	<input type="text" name="firstName" placeholder="First Name" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputLastName">Last Name</label>
-                <div class="controls">
-                	<input type="text" name="lastName" placeholder="Last Name" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputEmail">Email</label>
-                <div class="controls">
-                	<input type="text" name="email" placeholder="Email" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="active">Active</label>
-                <div class="controls">
-                	<select name="active">
-                		<option value="">Select a value</option>
-                		<option value="true">Yes</option>
-                		<option value="false">No</option>
-                	</select>
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group" id="default-user-location">
-                <label class="control-label" for="active">Default Location</label>
-                <div class="controls">
-                	<select name="locationId"></select>
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="alert alert-info hide" id="temp-password">
-				<strong>Temporary Password: </strong><span></span>
-			</div>
-    	</form>
-	</div>
-	<div class="modal-footer">
-    	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-    	<a href="#" class="btn btn-primary" id="submit-form">Save</a>
-	</div>
+<div class="modal fade" role="dialog" id="user-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="firstName">First Name</label>
+                        <div class="controls col-lg-6">
+                            <input type="hidden" name="userId" />
+                            <input type="text" class="form-control" name="firstName" placeholder="First Name" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="lastName">Last Name</label>
+                        <div class="controls col-lg-6">
+                            <input type="text" class="form-control" name="lastName" placeholder="Last Name" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="email">Email</label>
+                        <div class="controls col-lg-6">
+                            <input type="text" class="form-control" name="email" placeholder="Email" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="active">Active</label>
+                        <div class="controls col-lg-6">
+                            <select name="active" class="form-control" >
+                                <option value="">Select a value</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="alert alert-info hide" id="temp-password">
+                        <strong>Temporary Password: </strong><span></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                <a href="#" class="btn btn-primary" id="submit-form">Save</a>
+            </div>
+        </div>
+    </div>
 </div>

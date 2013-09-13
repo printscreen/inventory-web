@@ -22,15 +22,16 @@ var Inventory = function (parameters) {
     
     this.displayFormErrors = function (form, errors) {
         $.each(errors.errorMap || errors, function (key, val) {
-            $('[name=\"' + key + '\"]').closest('.control-group').find('.help-block').html(val);
-            $('[name=\"' + key + '\"]').closest('.control-group').addClass('error');
+            console.log(key, val);
+            $('[name=\"' + key + '\"]').closest('.form-group').find('.help-block').html(val);
+            $('[name=\"' + key + '\"]').closest('.form-group').addClass('has-error');
         });
     };
     
     this.clearErrors = function(form) {
-        $.each(form.find(':input'), function(key,val){
-            $(val).closest('.control-group').removeClass('error');
-            $(val).closest('.control-group').find('.help-block').html('');
+        $.each(form.find(':input, :select'), function(key,val){
+            $(val).closest('.form-group').removeClass('has-error');
+            $(val).closest('.form-group').find('.help-block').html('');
         });
     };
     
@@ -41,10 +42,7 @@ var Inventory = function (parameters) {
             type: 'GET',
             dataType: 'jsonp',
             data: $.extend(data, {token: self.getToken()}),
-            success: success,
-            error: function (a,b,c) {
-                console.log(a,b,c);
-            }
+            success: success
         });
     };
     
@@ -99,5 +97,13 @@ $.fn.clearForm = function() {
     .val('')
     .end()
     .find('input:radio, input:checkbox').removeAttr('checked').removeAttr('selected');
+    $(this).clearFormErrors();
+    return $(this);
+};
+$.fn.clearFormErrors = function() {
+    $.each($(this).find(':input'), function(key,val){
+        $(val).closest('.form-group').removeClass('has-error');
+        $(val).closest('.form-group').find('.help-block').html('');
+    });
     return $(this);
 };

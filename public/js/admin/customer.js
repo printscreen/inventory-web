@@ -134,10 +134,10 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             $('#temp-password, #default-user-location').hide();
             $('#user-form form').find('input[name="userId"]').prop('disabled', false);
             methods.getCustomer(userId);
-            $('.modal-header h3').html('Edit Employee');
+            $('.modal-header h4').html('Edit Customer');
         } else {
             $('#user-form form').find('input[name="userId"]').prop('disabled', true);
-            $('.modal-header h3').html('Add Employee');
+            $('.modal-header h4').html('Add Customer');
             $('#temp-password, #default-user-location').show();
         }
         $('#user-form').modal('show');

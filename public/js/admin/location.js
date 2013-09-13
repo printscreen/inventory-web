@@ -115,10 +115,10 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
         if(!isNaN(parseInt(locationId))) {
             $('#location-form form').find('input[name="locationId"]').prop('disabled', false);
             methods.getLocation(locationId);
-            $('.modal-header h3').html('Edit Location');
+            $('.modal-header h4').html('Edit Location');
         } else {
             $('#location-form form').find('input[name="locationId"]').prop('disabled', true);
-            $('.modal-header h3').html('Add Location');
+            $('.modal-header h4').html('Add Location');
         }
         $('#location-form').modal('show');
     };

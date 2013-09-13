@@ -125,10 +125,10 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             $('#temp-password').hide();
             $('#user-form form').find('input[name="userId"]').prop('disabled', false);
             methods.getEmployee(userId);
-            $('.modal-header h3').html('Edit Employee');
+            $('.modal-header h4').html('Edit Employee');
         } else {
             $('#user-form form').find('input[name="userId"]').prop('disabled', true);
-            $('.modal-header h3').html('Add Employee');
+            $('.modal-header h4').html('Add Employee');
             $('#temp-password').show();
         }
         $('#user-form').modal('show');
@@ -183,7 +183,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             $('#user-form form').submit();
         });
         $('#user-form').on('hide', function() {
-            base.clearErrors($('#user-form form'));
+            $(this).clearForm();
             $('#temp-password span').html('');
         });
         $('#active-user').click(function(){

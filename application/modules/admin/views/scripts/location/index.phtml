@@ -1,91 +1,95 @@
-<div class="row-fluid">
-	<div class="pull-right">
-		<button type="button" class="btn" data-toggle="button" id="active-location">Show: Active</button>
-		<a href="#" class="btn btn-primary" id="add-location"><i class="icon-home icon-white"></i> +</a>
-	</div>
+<div class="row">
+    <div class="pull-right">
+        <button type="button" class="btn btn-default" data-toggle="button" id="active-location">Show: Active</button>
+        <a href="#" class="btn btn-primary" id="add-location"><span class="glyphicon glyphicon-plus"></span></a>
+    </div>
 </div>
 <br />
-<table class="locations table table-hover">
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Street</th>
-			<th>City</th>
-			<th>State</th>
-			<th>Zip</th>
-			<th>Phone Number</th>
-			<th>Active</th>
-		</tr>
-	</thead>
-	<tbody>
-	
-	</tbody>
+<table class="locations table table-responseive table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip</th>
+            <th>Phone Number</th>
+            <th>Active</th>
+        </tr>
+    </thead>
+    <tbody>
+    
+    </tbody>
 </table>
-<div class="modal hide fade" id="location-form">
-	<div class="modal-header">
-    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    	<h3></h3>
-  	</div>
-	<div class="modal-body">
-    	<form class="form-horizontal">
-    		<div class="control-group">
-                <label class="control-label" for="inputName">Name</label>
-                <div class="controls">
-                	<input type="hidden" name="locationId" />
-                	<input type="text" name="name" placeholder="Name" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputStreet">Street</label>
-                <div class="controls">
-                	<input type="text" name="street" placeholder="Street" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputCity">City</label>
-                <div class="controls">
-                	<input type="text" name="city" placeholder="City" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputState">State</label>
-                <div class="controls">
-                	<?php echo $this->partial('partials/state-select.phtml', 'default'); ?>
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputZip">Zip</label>
-                <div class="controls">
-                	<input type="text" name="zip" placeholder="Zip Code" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputPhoneNumber">Phone Number</label>
-                <div class="controls">
-                	<input type="text" name="phoneNumber" placeholder="Phone Number" />
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-  			<div class="control-group">
-                <label class="control-label" for="inputActive">Active</label>
-                <div class="controls">
-                	<select name="active">
-                		<option value="">Select a value</option>
-                		<option value="true">Yes</option>
-                		<option value="false">No</option>
-                	</select>
-                	<p class="help-block"></p>
-                </div>
-  			</div>
-    	</form>
-	</div>
-	<div class="modal-footer">
-    	<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
-    	<a href="#" class="btn btn-primary" id="submit-form">Save</a>
-	</div>
+<div class="modal fade" role="dialog" id="location-form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="name">Name</label>
+                        <div class="controls col-lg-6">
+                            <input type="hidden" name="locationId" />
+                            <input type="text" class="form-control" name="name" placeholder="Name" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="street">Street</label>
+                        <div class="controls col-lg-6">
+                            <input type="text" class="form-control" name="street" placeholder="Street" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="city">City</label>
+                        <div class="controls col-lg-6">
+                            <input type="text" class="form-control" name="city" placeholder="City" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="state">State</label>
+                        <div class="controls col-lg-6">
+                            <?php echo $this->partial('partials/state-select.phtml', 'default'); ?>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="zip">Zip</label>
+                        <div class="controls col-lg-6">
+                            <input type="text" class="form-control" name="zip" placeholder="Zip Code" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="phoneNumber">Phone Number</label>
+                        <div class="controls col-lg-6">
+                            <input type="text" class="form-control" name="phoneNumber" placeholder="Phone Number" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="active">Active</label>
+                        <div class="controls col-lg-6">
+                            <select name="active" class="form-control" >
+                                <option value="">Select a value</option>
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+                <a href="#" class="btn btn-primary" id="submit-form">Save</a>
+            </div>
+        </div>
+    </div>
 </div>
