@@ -11,7 +11,9 @@ application_version = "1.0.0"
 resources.frontController.controllerDirectory = APPLICATION_PATH "/controllers"
 resources.frontController.params.displayExceptions = 0
 
-api.url = ""
+api_url = ""
+
+acl = APPLICATION_PATH "/configs/acl.xml"
 
 default_time_zone = "America/Los_Angeles"
 
@@ -33,4 +35,4 @@ phpSettings.display_errors = 1
 resources.frontController.params.displayExceptions = 1
 
 [development : testing]
-api.url = ""
+api_url = ""
