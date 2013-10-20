@@ -320,9 +320,12 @@ Inventory.prototype.modules.adminItem = function (base, index) {
             options = from.find('option:selected').remove(),
             itemTypeIds = [];
 
-        $.each(options, function (key, val) {
+        $.each(options || {}, function (key, val) {
             itemTypeIds.push($(val).val());
         });
+        if(itemTypeIds.length === 0) {
+            return;
+        }
         base.makeApiCall(
                 isAdd ? 'admin/item/add-location-item-type' : 'admin/item/delete-location-item-type', {
                 locationId: $('#location-search').val(),
