@@ -5,6 +5,7 @@
         <resource>admin:user:employee</resource>
         <resource>admin:user:customer</resource>
         <resource>admin:unit:index</resource>
+        <resource>admin:item:index</resource>
     </userType>
     <userType name="employee" id="2">
         <resource>admin:index:index</resource>

@@ -5,7 +5,14 @@ body {
     height: 100%;
 }
 .btn:focus {
-    outline:none;	
+    outline:none;
+}
+/* Fix for bootstrap modal pushing body content on open */
+body, .navbar-fixed-top, .navbar-fixed-bottom {
+  margin-right: 0 !important;
+}
+.modal {
+    overflow: hidden;
 }
 /* Wrapper for page content to push down footer */
 #wrap {
@@ -31,6 +38,7 @@ body {
     padding-left: 15px;
     padding-right: 15px;
 }
+
 .modal-header, .modal-footer {
     padding: 5px 15px;
 }

@@ -8,18 +8,19 @@ var Inventory = function (parameters) {
        token : function () {},
        userId : function () {}
     };
-    
+
     $.extend(options, parameters);
-    
+
     methods.init = function () {
+        $.support.cors = true;
         if(typeof self.modules !== 'undefined') {
             $.each(self.modules, function (index, Module) {
                 self.modules[index] = new Module(self, index);
                 self.modules[index].dispatch();
-            });  
+            });
         }
     };
-    
+
     this.displayFormErrors = function (form, errors) {
         $.each(errors.errorMap || errors, function (key, val) {
             console.log(key, val);
@@ -27,33 +28,44 @@ var Inventory = function (parameters) {
             $('[name=\"' + key + '\"]').closest('.form-group').addClass('has-error');
         });
     };
-    
+
     this.clearErrors = function(form) {
         $.each(form.find(':input, :select'), function(key,val){
             $(val).closest('.form-group').removeClass('has-error');
             $(val).closest('.form-group').find('.help-block').html('');
         });
     };
-    
+
     this.makeApiCall = function(url, data, success) {
         $.ajax({
             url: options.apiUrl + url,
             async: true,
-            type: 'GET',
+            type: 'POST',
             dataType: 'jsonp',
             data: $.extend(data, {token: self.getToken()}),
-            success: success
+            success: success,
+            complete: function(response, moo, meow){
+                //console.log(response, moo, meow);
+            },
+            error: function (response, status) {
+                console.log(response, status);
+            },
+            statusCode: {
+                401: function () {
+                    console.log('IM HERE!');
+                }
+            }
         });
     };
-    
+
     this.getToken = function () {
         return options.token();
     };
-    
+
     this.getUserId = function () {
         return options.userId();
     };
-    
+
     this.dispatch = function () {
         methods.init();
     };
