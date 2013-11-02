@@ -6,7 +6,7 @@ ItemTypeAttributeFactory = function (type) {
         try {
             return new window[type](options);
         } catch (err) {
-            console.log(err.message);
+            console.log(err.message);x
         }
     };
 },
@@ -59,9 +59,9 @@ ItemTypeAttributeAlphanumeric = function (options) {
     };
 };
 
-ItemTypeAttributeGeneral = ItemTypeAttributeAlphanumeric;
-ItemTypeAttributeNumbers = ItemTypeAttributeAlphanumeric;
 ItemTypeAttributeText = ItemTypeAttributeAlphanumeric;
+ItemTypeAttributeNumbers = ItemTypeAttributeAlphanumeric;
+ItemTypeAttributeTextArea = ItemTypeAttributeAlphanumeric;
 
 ItemTypeAttributeOptional = function (options) {
     var self = this,
