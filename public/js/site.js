@@ -36,10 +36,10 @@ var Inventory = function (parameters) {
         });
     };
 
-    this.makeApiCall = function(url, data, success) {
+    this.makeApiCall = function(url, data, success, async) {
         $.ajax({
             url: options.apiUrl + url,
-            async: true,
+            async: (typeof async == 'boolean') ? async : true,
             type: 'POST',
             dataType: 'jsonp',
             data: $.extend(data, {token: self.getToken()}),

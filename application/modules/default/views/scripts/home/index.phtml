@@ -1,0 +1,40 @@
+<div class="page-header">
+    <h1>My Items <small>:General</small>
+        <form class="pull-right form-inline">
+            <div class="form-group">
+                <small>Filter:</small>
+            </div>
+            <div class="form-group">
+                <select id="filter-item-type" name="filter-item-type" class="form-control input-lg"></select>
+            </div>
+            <div class="form-group">
+                <a href="#" class="btn btn-primary btn-lg" id="add-item"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+        </form>
+    </h1>
+</div>
+<div class="modal fade" id="edit-item-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="location-filters">
+                    <div class="form-group">
+                        <label for="item-type">Pick an item type</label>
+                        <select id="add-item-type" name="item-type" class="form-control input-lg item-type"></select>
+                    </div>
+                </form>
+                <div id="item-form-body">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
