@@ -23,7 +23,6 @@ var Inventory = function (parameters) {
 
     this.displayFormErrors = function (form, errors) {
         $.each(errors.errorMap || errors, function (key, val) {
-            console.log(key, val);
             $('[name=\"' + key + '\"]').closest('.form-group').find('.help-block').html(val);
             $('[name=\"' + key + '\"]').closest('.form-group').addClass('has-error');
         });
@@ -36,24 +35,15 @@ var Inventory = function (parameters) {
         });
     };
 
-    this.makeApiCall = function(url, data, success, async) {
+    this.makeApiCall = function(url, data, success) {
         $.ajax({
             url: options.apiUrl + url,
-            async: (typeof async == 'boolean') ? async : true,
             type: 'POST',
             dataType: 'jsonp',
             data: $.extend(data, {token: self.getToken()}),
             success: success,
-            complete: function(response, moo, meow){
-                //console.log(response, moo, meow);
-            },
             error: function (response, status) {
                 console.log(response, status);
-            },
-            statusCode: {
-                401: function () {
-                    console.log('IM HERE!');
-                }
             }
         });
     };

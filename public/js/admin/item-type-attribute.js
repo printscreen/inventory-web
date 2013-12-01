@@ -6,7 +6,7 @@ ItemTypeAttributeFactory = function (type) {
         try {
             return new window[type](options);
         } catch (err) {
-            console.log(err.message);x
+            console.log(err.message);
         }
     };
 },

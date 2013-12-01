@@ -1,40 +1,46 @@
-<div class="page-header">
-    <h1>My Items <small>:General</small>
+<div id="display-item">
+    <div class="page-header">
+        <span class="glyphicon glyphicon-chevron-down collapse-item" data-toggle="collapse" data-target="#recent-items"></span>
+        <h1 class="collapse-item" data-toggle="collapse" data-target="#recent-items">Recently Modified</h1>
         <form class="pull-right form-inline">
-            <div class="form-group">
-                <small>Filter:</small>
-            </div>
-            <div class="form-group">
-                <select id="filter-item-type" name="filter-item-type" class="form-control input-lg"></select>
-            </div>
             <div class="form-group">
                 <a href="#" class="btn btn-primary btn-lg" id="add-item"><span class="glyphicon glyphicon-plus"></span></a>
             </div>
         </form>
-    </h1>
-</div>
-<div class="modal fade" id="edit-item-modal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                <form role="form" id="location-filters">
-                    <div class="form-group">
-                        <label for="item-type">Pick an item type</label>
-                        <select id="add-item-type" name="item-type" class="form-control input-lg item-type"></select>
-                    </div>
-                </form>
-                <div id="item-form-body">
-
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
-            </div>
-        </div>
     </div>
+    <div id="recent-items" class="collapse in"></div>
+	<div class="page-header">
+        <span class="glyphicon glyphicon-chevron-down collapse-item" data-toggle="collapse" data-target="#items"></span>
+	    <h1 class="collapse-item" data-toggle="collapse" data-target="#items">My Items <small>:General</small></h1>
+        <form class="pull-right form-inline">
+            <div class="form-group">
+                Filter:
+            </div>
+            <div class="form-group">
+                <select id="filter-item-type" name="filter-item-type" class="form-control input-lg"></select>
+            </div>
+        </form>
+	</div>
+    <div id="items" class="collapse in"></div>
+</div>
+<div id="modify-item" class="hide">
+	<div class="page-header">
+	    <h1></h1>
+	</div>
+	<form id="item-form" class="form-horizontal" role="form">
+  		<div class="form-group">
+    		<label for="item-type" class="col-lg-3 control-label input-lg">Pick an item type</label>
+    		<div class="controls col-lg-6">
+      			<select id="add-item-type" name="itemTypeId" class="form-control input-lg item-type"></select>
+    		</div>
+    	</div>
+
+    	<div id="item-form-body"></div>
+    	<div class="form-group">
+    		<div class="controls col-lg-5 pull-right">
+      			<a href="#" id="cancel-save-item" class="btn btn-default btn-lg">Cancel</a>
+      			<input type="submit" class="btn btn-primary btn-lg item-form-hide hide" value="Submit" />
+    		</div>
+    	</div>
+   	</form>
 </div>
