@@ -3,9 +3,6 @@ var Inventory = function (parameters) {
     var self = this,
     methods = {},
     options = {
-       appUrl : 'http://mystoragepal.com/',
-       apiUrl : 'http://api.mystoragepal.com/',
-       token : function () {},
        userId : function () {}
     };
 
@@ -37,19 +34,15 @@ var Inventory = function (parameters) {
 
     this.makeApiCall = function(url, data, success) {
         $.ajax({
-            url: options.apiUrl + url,
+            url: '/api',
             type: 'POST',
-            dataType: 'jsonp',
-            data: $.extend(data, {token: self.getToken()}),
+            dataType: 'json',
+            data: $.extend(data, {url: url}),
             success: success,
             error: function (response, status) {
                 console.log(response, status);
             }
         });
-    };
-
-    this.getToken = function () {
-        return options.token();
     };
 
     this.getUserId = function () {

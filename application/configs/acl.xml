@@ -6,13 +6,19 @@
         <resource>admin:user:customer</resource>
         <resource>admin:unit:index</resource>
         <resource>admin:item:index</resource>
+        <resource>default:profile:index</resource>
+        <resource>default:api:index</resource>
     </userType>
     <userType name="employee" id="2">
         <resource>admin:index:index</resource>
         <resource>admin:user:customer</resource>
         <resource>admin:unit:index</resource>
+        <resource>default:profile:index</resource>
+        <resource>default:api:index</resource>
     </userType>
     <userType name="customer" id="3">
         <resource>default:home:index</resource>
+        <resource>default:profile:index</resource>
+        <resource>default:api:index</resource>
     </userType>
 </acl>
