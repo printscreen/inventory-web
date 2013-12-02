@@ -54,4 +54,11 @@ body, .navbar-fixed-top, .navbar-fixed-bottom {
 .modal-header, .modal-footer {
     padding: 5px 15px;
 }
-
+/* Remove dotted lines */
+.nav-pills a:focus {
+    outline:none;
+}
+select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
