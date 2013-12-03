@@ -7,7 +7,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         limit = 20,
         active = true,
         locationId = null;
-    
+
     methods.saveForm = function () {
         base.makeApiCall(
               'admin/unit/edit-unit'
@@ -25,7 +25,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             }
         );
     };
-    
+
     methods.saveAssignForm = function (params) {
         base.makeApiCall(
               params.type === 'delete' ?
@@ -45,19 +45,19 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             }
         );
     };
-    
+
     methods.getUnitUsers = function (unitId) {
         base.makeApiCall(
               'admin/unit/unit-users'
             , {
                 unitId : unitId,
                 sort: -7
-            }, 
+            },
             function(result) {
                 if(result.success) {
                     methods.populateUnitUsers(
-                        result.users, 
-                        unitId       
+                        result.users,
+                        unitId
                     );
                 } else {
                     base.displayFormErrors(
@@ -71,12 +71,12 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
                 'admin/unit/unit-available-users'
               , {
                   unitId : unitId
-              }, 
+              },
               function(result) {
                   if(result.success) {
                       methods.populateAvailableUnitUsers(
-                          result.users, 
-                          unitId       
+                          result.users,
+                          unitId
                       );
                   } else {
                       base.displayFormErrors(
@@ -87,7 +87,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
               }
           );
     };
-    
+
     methods.populateAvailableUnitUsers = function (users, unitId) {
         var options = '<option value="">Select a Customer</option>';
         $.each(users, function (key, val) {
@@ -100,18 +100,18 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         $('#assign-form input[name="unitId"]').val(unitId);
         $('#assign-form select[name="userId"]').html(options);
     };
-    
+
     methods.populateUnitUsers = function (users, unitId) {
         var body = '';
         $.each(users, function (key, val) {
-            body += 
-                '<tr ' + (val.active == '1' ? 'class="success"' : '') + 
-                'data-unit-id="' + unitId + 
+            body +=
+                '<tr ' + (val.active == '1' ? 'class="success"' : '') +
+                'data-unit-id="' + unitId +
                 '" data-user-id="' + val.userId + '">' +
                     '<td>'+ val.firstName + '</td>' +
                     '<td>'+ val.lastName + '</td>' +
                     '<td>'+ val.email + '</td>' +
-                    '<td>'+ (val.active == '1' ? 'Yes' : 'No') + 
+                    '<td>'+ (val.active == '1' ? 'Yes' : 'No') +
                         '<span class="edit-unit-users pull-right">' +
                             '<a href="#" data-action="delete" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span></a>' +
                             '<a href="#" data-action="add" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span></a>' +
@@ -121,23 +121,23 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         });
         $('table.users tbody').html(body);
     };
-    
+
     methods.populate = function (users) {
         var body = '';
         var options = '<option value="">Select a Unit</option>';
         $.each(users, function (key, val) {
-            body += 
+            body +=
                 '<tr data-unit-id="' + val.unitId + '">' +
                     '<td>'+ val.name + '</td>' +
                     '<td>'+ (val.active == '1' ? 'Yes' : 'No') + '</td>' +
                 '</tr>';
-            options += 
+            options +=
                 '<option value="'+val.unitId+'">' + val.name + '</option>';
         });
         $('table.units tbody').html(body);
         $('#unit-search').html(options);
     };
-    
+
     methods.populateForm = function (unit) {
         var form = $('#unit-form form');
         form.find('input[name="unitId"]').val(unit.unitId);
@@ -145,18 +145,18 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         form.find('input[name="name"]').val(unit.name);
         form.find('select[name="active"]').val((unit.active == '1' ? 'true' : 'false'));
     };
-    
+
     methods.populateLocations = function(locations, select, defaultOption) {
         var options = defaultOption ? '<option value="">Select a Location</option>' : '';
         $.each(locations, function (key, val) {
-            options += 
+            options +=
                 '<option value="' + val.locationId + '">'
                     + val.name +
                 '</option>';
         });
         select.html(options);
     };
-    
+
     methods.getUnits = function () {
         base.makeApiCall('admin/unit/view-unit-by-location', {
                 sort: sort,
@@ -165,25 +165,25 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
                 active: active,
                 locationId: locationId
             }, function(result) {
-                methods.populate(result.units);  
+                methods.populate(result.units);
             }
         );
     };
-    
+
     methods.getUnit = function (unitId) {
         base.makeApiCall('admin/unit/get', {
                 unitId: unitId
             }, function(result) {
-                methods.populateForm(result.unit);  
+                methods.populateForm(result.unit);
             }
         );
     };
-    
+
     methods.form = function () {
         $('#unit-form form').validate({
             rules: {
                 unitId : {
-                    required: function(){ 
+                    required: function(){
                         return $('#unit-form form')
                         .find('input[name="unitId"]')
                         .is(':disabled');
@@ -232,7 +232,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             }
         });
     };
-    
+
     methods.showForm = function (unitId, locationId) {
         $('#unit-form form').clearForm();
         if(!isNaN(parseInt(unitId))) {
@@ -246,32 +246,32 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         }
         $('#unit-form').modal('show');
     };
-    
+
     methods.showAssignForm = function (isAdd) {
         $('#assign-customer form').clearForm();
         $('#assign-form .modal-header h4').html(isAdd ? 'Assign New Customer' : 'Edit Customer Assignment');
         $('#delete-user-unit').toggle(!isAdd);
         $('#assign-form').modal('show');
     };
-    
+
     methods.getLocations = function (userId, available, select, defaultOption) {
         base.makeApiCall('admin/user/view-user-location', {
                 userId: userId,
                 available: available
             }, function(result) {
                 methods.populateLocations(
-                    result.userLocations.userLocations, 
-                    select, 
+                    result.userLocations.userLocations,
+                    select,
                     defaultOption
                 );
             }
         );
     };
-    
+
     this.dispatch = function () {
         methods.form();
         methods.getLocations(
-            base.getUserId(),
+            null,
             true,
             $('#filter-locations, #default-user-location select'),
             true
@@ -281,7 +281,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
            $('#add-unit, #customer-units-tab').toggle(locationId !== null);
            $('#locations table.users tbody').html('');
            $('#assign-customer').toggle(false);
-           methods.getUnits();      
+           methods.getUnits();
         }).trigger('change');
         $('#unit-search').change(function() {
             var unitId = $(this).val();
@@ -300,7 +300,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
            $('.edit-unit-users').hide();
            if(!visible) {
                span.fadeToggle(visible);
-           }          
+           }
         });
         $('.users tbody').on('click', '.edit-unit-users a', function (e) {
             e.stopPropagation();

@@ -7,7 +7,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         limit = 20,
         active = true,
         locationId = null;
-    
+
     methods.saveForm = function () {
         base.makeApiCall(
               'admin/user/edit-customer'
@@ -15,7 +15,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             , function(result) {
                 if(result.success) {
                     methods.getCustomers();
-                    $('#user-form').modal('hide'); 
+                    $('#user-form').modal('hide');
                 } else {
                     base.displayFormErrors(
                         $('#user-form form'),
@@ -25,12 +25,12 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             }
         );
     };
-    
+
     methods.populate = function (users) {
         var body = '';
         var options = '<option value="">Select an Customer</option>';
         $.each(users, function (key, val) {
-            body += 
+            body +=
                 '<tr data-user-id="' + val.userId + '">' +
                     '<td>'+ val.firstName + '</td>' +
                     '<td>'+ val.lastName + '</td>' +
@@ -46,7 +46,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         $('table.users tbody').html(body);
         $('#customer-search').html(options);
     };
-    
+
     methods.populateForm = function (user) {
         var form = $('#user-form form');
         form.find('input[name="userId"]').val(user.userId);
@@ -55,18 +55,18 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         form.find('input[name="email"]').val(user.email);
         form.find('select[name="active"]').val((user.active == '1' ? 'true' : 'false'));
     };
-    
+
     methods.populateLocations = function(locations, select, defaultOption) {
         var options = defaultOption ? '<option value="">Select a Location</option>' : '';
         $.each(locations, function (key, val) {
-            options += 
+            options +=
                 '<option value="' + val.locationId + '">'
                     + val.name +
                 '</option>';
         });
         select.html(options);
     };
-    
+
     methods.getCustomers = function () {
         base.makeApiCall('admin/user/view-customer', {
                 sort: sort,
@@ -75,25 +75,25 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
                 active: active,
                 locationId: locationId
             }, function(result) {
-                methods.populate(result.users);  
+                methods.populate(result.users);
             }
         );
     };
-    
+
     methods.getCustomer = function (userId) {
         base.makeApiCall('admin/user/get', {
                 userId: userId
             }, function(result) {
-                methods.populateForm(result.user);  
+                methods.populateForm(result.user);
             }
         );
     };
-    
+
     methods.form = function () {
         $('#user-form form').validate({
             rules: {
                 userId : {
-                    required: function(){ 
+                    required: function(){
                         return $('#user-form form')
                         .find('input[name="userId"]')
                         .is(':disabled');
@@ -108,7 +108,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
                 },
                 active: 'required',
                 locationId:  {
-                    required: function(){ 
+                    required: function(){
                         return $('#user-form form')
                         .find('input[name="userId"]')
                         .is(':disabled');
@@ -127,7 +127,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             submitHandler: methods.saveForm
         });
     };
-    
+
     methods.showForm = function (userId) {
         $('#user-form form').clearForm();
         if(!isNaN(parseInt(userId))) {
@@ -142,28 +142,28 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         }
         $('#user-form').modal('show');
     };
-    
+
     methods.getLocations = function (userId, available, select, defaultOption) {
         base.makeApiCall('admin/user/view-user-location', {
                 userId: userId,
                 available: available
             }, function(result) {
                 methods.populateLocations(
-                    result.userLocations.userLocations, 
-                    select, 
+                    result.userLocations.userLocations,
+                    select,
                     defaultOption
                 );
             }
         );
     };
-    
+
     methods.editLocations = function (isAdd) {
         var to = isAdd ? $('#locations select[name="delete"]') : $('#locations select[name="add"]'),
             from = isAdd ? $('#locations select[name="add"]') : $('#locations select[name="delete"]'),
             options = from.find('option:selected').remove(),
             locationIds = [],
             userId = $('#customer-search').val();
-            
+
         $.each(options, function (key, val) {
             locationIds.push($(val).val());
         });
@@ -174,16 +174,16 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             }, function(result) {
                 if(result.success) {
                     options.appendTo(to);
-                } 
+                }
             }
         );
     };
-    
+
     this.dispatch = function () {
         methods.form();
         methods.getCustomers();
         methods.getLocations(
-            base.getUserId(),
+            null,
             true,
             $('#filter-locations, #default-user-location select'),
             true

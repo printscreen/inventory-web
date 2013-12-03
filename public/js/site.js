@@ -2,9 +2,7 @@ var Inventory = function (parameters) {
     "use strict";
     var self = this,
     methods = {},
-    options = {
-       userId : function () {}
-    };
+    options = {};
 
     $.extend(options, parameters);
 
@@ -43,10 +41,6 @@ var Inventory = function (parameters) {
                 console.log(response, status);
             }
         });
-    };
-
-    this.getUserId = function () {
-        return options.userId();
     };
 
     this.dispatch = function () {
