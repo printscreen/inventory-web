@@ -18,13 +18,14 @@ var Inventory = function (parameters) {
 
     this.displayFormErrors = function (form, errors) {
         $.each(errors.errorMap || errors, function (key, val) {
+            console.log(key, val);
             $('[name=\"' + key + '\"]').closest('.form-group').find('.help-block').html(val);
             $('[name=\"' + key + '\"]').closest('.form-group').addClass('has-error');
         });
     };
 
     this.clearErrors = function(form) {
-        $.each(form.find(':input, :select'), function(key,val){
+        $.each(form.find(':input'), function(key,val){
             $(val).closest('.form-group').removeClass('has-error');
             $(val).closest('.form-group').find('.help-block').html('');
         });
