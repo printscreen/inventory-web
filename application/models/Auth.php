@@ -1,5 +1,5 @@
 <?php
-class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface 
+class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface
 {
     private $_email;
     private $_password;
@@ -16,7 +16,7 @@ class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface
             'email' => null,
             'password' => null
             ), $options);
-            
+
         parent::__construct();
         $this->_email = $settings['email'];
         $this->_password = $settings['password'];
@@ -47,12 +47,30 @@ class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface
 		$myresult = new Zend_Auth_Result($atype, $identity);
 		return $myresult;
     }
-    
+
+    public function forgotPassword($url)
+    {
+        return $this->request('auth/forgot-password', array(
+            'email' => $this->_email,
+            'url' => $url
+        ));
+    }
+
+    public function resetPassword($resetToken, $password, $repeatPassword)
+    {
+        return $this->request('auth/reset-password', array(
+            'email' => $this->_email,
+            'token' => $resetToken,
+            'password' => $password,
+            'repeatPassword' => $repeatPassword
+        ));
+    }
+
     public function getToken()
     {
         return $this->_token;
     }
-    
+
     public function getUser()
     {
         return $this->_user;

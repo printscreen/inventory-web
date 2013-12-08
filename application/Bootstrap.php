@@ -6,6 +6,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         defined('SESSION') || define('SESSION', 'User_Session');
         defined('TOKEN') || define('TOKEN', 'User_Token');
         defined('API_URL') || define('API_URL', 'Api_Url');
+        defined('APPLICATION_URL') || define('APPLICATION_URL', 'Application_Url');
     }
 
     protected function _initAutoload()
@@ -33,6 +34,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         date_default_timezone_set($this->getOption('default_time_zone'));
         Zend_Registry::set(API_URL, $this->getOption('api_url'));
+        Zend_Registry::set(APPLICATION_URL, $this->getOption('application_url'));
     }
 
     protected function _initSession()

@@ -1,7 +1,7 @@
 <?php
 
 class AuthController extends Zend_Controller_Action
-{   
+{
     public function loginAction()
     {
         Zend_Layout::getMvcInstance()->setLayout('auth');
@@ -24,9 +24,9 @@ class AuthController extends Zend_Controller_Action
             	$session->token = $authAdapter->getToken();
                 if($user->getUserTypeId() == Model_User::USER_TYPE_ADMIN ||
                    $user->getUserTypeId() == Model_User::USER_TYPE_EMPLOYEE) {
-                    $this->_redirect('/admin');    
+                    $this->_redirect('/admin');
                 } else {
-                    $this->_redirect('/home');   
+                    $this->_redirect('/home');
                 }
             } else {
             	$message = 'Wrong Email/Password';
@@ -43,10 +43,45 @@ class AuthController extends Zend_Controller_Action
         $this->view->form = $form;
         $this->view->message = $message;
     }
+
     public function logoutAction()
     {
         Zend_Auth::getInstance()->clearIdentity();
         Zend_Session::destroy();
-        $this->_redirect('/'); 
+        $this->_redirect('/');
+    }
+
+    public function forgotPasswordAction()
+    {
+        Zend_Layout::getMvcInstance()->setLayout('auth');
+        if ($this->getRequest()->isPost()) {
+            $auth = new Model_Auth(array(
+                'email' => $this->getRequest()->getParam('email')
+            ));
+            $response = $auth->forgotPassword(
+                Zend_Registry::get(APPLICATION_URL) . 'auth/reset-password'
+            );
+            $this->view->success = $response->success;
+            $this->view->message = $response->message;
+        }
+    }
+
+    public function resetPasswordAction()
+    {
+        Zend_Layout::getMvcInstance()->setLayout('auth');
+        $this->view->email = $this->getRequest()->getParam('email');
+        $this->view->token = $this->getRequest()->getParam('token');
+        if ($this->getRequest()->isPost()) {
+            $auth = new Model_Auth(array(
+                'email' => $this->getRequest()->getParam('email')
+            ));
+            $response = $auth->resetPassword(
+                  $this->getRequest()->getParam('token')
+                , $this->getRequest()->getParam('password')
+                , $this->getRequest()->getParam('repeatPassword')
+            );
+            $this->view->success = $response->success;
+            $this->view->message = $response->message;
+        }
     }
 }
