@@ -9,7 +9,7 @@
         <a href="#" class="btn btn-primary pull-right" id="add-user"><span class="glyphicon glyphicon-plus"></span></a>
         <button type="button" class="btn btn-default pull-right" data-toggle="button" id="active-user">Show: Active</button>
         <form class="pull-right">
-            <select class="form-control" id="filter-locations"></select>
+            <select class="form-control locations" id="filter-locations"></select>
         </form>
 	</div>
 </div>
@@ -90,6 +90,13 @@
                         <label class="col-lg-3 control-label" for="email">Email</label>
                         <div class="controls col-lg-6">
                             <input type="text" class="form-control" name="email" placeholder="Email" />
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label" for="locationId">Default Location</label>
+                        <div class="controls col-lg-6">
+                            <select class="form-control locations" name="locationId"></select>
                             <p class="help-block"></p>
                         </div>
                     </div>
