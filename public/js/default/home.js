@@ -87,15 +87,18 @@ Inventory.prototype.modules.home = function (base, index) {
                 $(select).trigger('change');
 
                 methods.displayInventory(
-                    $(select).val()
+                    $(select).val(),
+                    $('#filter-item-type').val(),
+                    false
                 );
             }
         );
     };
 
-    methods.displayInventory = function (unitId, showToast) {
+    methods.displayInventory = function (unitId, itemTypeId, showToast) {
         base.makeApiCall('default/item/view-by-unit', {
-            unitId: unitId
+            unitId: unitId,
+            itemTypeId: itemTypeId
         }, function(result) {
                 methods.populateInventory(
                     result.filteredItems,
@@ -191,6 +194,11 @@ Inventory.prototype.modules.home = function (base, index) {
             $('.page-header small:first').text(
                 ':' + $(this).find('option:selected').text()
             );
+            methods.displayInventory(
+                $('#filter-units').val(),
+                $('#filter-item-type').val(),
+                false
+            );
         });
         $('#add-item').click(function() {
             $('#add-item-type').prop('disabled', false);
@@ -228,6 +236,7 @@ Inventory.prototype.modules.home = function (base, index) {
         			methods.showForm(false);
         			methods.displayInventory(
         				$('#filter-units').val(),
+                        $('#filter-item-type').val(),
                         true
         			);
         		}
@@ -250,6 +259,7 @@ Inventory.prototype.modules.home = function (base, index) {
                     methods.showForm(false);
                     methods.displayInventory(
                         $('#filter-units').val(),
+                        $('#filter-item-type').val(),
                         true
                     );
                 }
