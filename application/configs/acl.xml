@@ -8,6 +8,7 @@
         <resource>admin:item:index</resource>
         <resource>default:profile:index</resource>
         <resource>default:api:index</resource>
+        <resource>default:image:index</resource>
     </userType>
     <userType name="employee" id="2">
         <resource>admin:index:index</resource>
@@ -15,10 +16,12 @@
         <resource>admin:unit:index</resource>
         <resource>default:profile:index</resource>
         <resource>default:api:index</resource>
+        <resource>default:image:index</resource>
     </userType>
     <userType name="customer" id="3">
         <resource>default:home:index</resource>
         <resource>default:profile:index</resource>
         <resource>default:api:index</resource>
+        <resource>default:image:index</resource>
     </userType>
 </acl>

@@ -52,6 +52,66 @@
     	</div>
    	</form>
 </div>
+<div id="picture-item" class="hide">
+    <div class="page-header">
+        <h1 class="collapse-item">Pictures for <span></span></h1>
+        <div class="pull-right">
+            <a href="#" class="btn" id="cancel-add-item-picture">
+                Cancel
+            </a>
+            <a href="#" class="btn btn-primary" id="add-item-picture" data-toggle="modal" data-target="#picture-modal">
+                Add Picture
+            </a>
+        </div>
+    </div>
+    <div id="item-images"></div>
+</div>
+<div class="modal fade" id="picture-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add a picture</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="picture-form">
+                    <div class="form-group">
+                        <button class="btn btn-primary" id="add-picture">Select Picture</button>
+                        <div class="well well-sm hide pull-right"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary disabled" disabled="disabled" id="save-picture">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit-picture-modal">
+    <div class="modal-dialog">
+        <form role="form" id="edit-picture-form">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Edit a picture</h4>
+                </div>
+                <div class="modal-body">
+                    <img src="" />
+                    <input type="hidden" name="itemImageId" />
+                    <input type="hidden" name="itemId" />
+                </div>
+                <div class="modal-footer">
+                    <span id="make-default-picture">
+
+                    </span>
+                    <button type="button" class="btn btn-danger" id="delete-picture">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="modal fade" id="change-location-modal">
     <div class="modal-dialog">
         <div class="modal-content">

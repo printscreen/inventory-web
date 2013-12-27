@@ -6,7 +6,8 @@ Inventory.prototype.modules.home = function (base, index) {
         offset = 0,
         limit = 20,
         active = true,
-        locationId = null;
+        locationId = null,
+        pictureUploader = {};
 
     methods.populateLocations = function(locations, select, defaultOption) {
         var options = defaultOption ? '<option value="">Select a Location</option>' : '';
@@ -111,6 +112,44 @@ Inventory.prototype.modules.home = function (base, index) {
         );
     };
 
+    methods.getPictures = function (itemId) {
+        base.makeApiCall('default/image/view', {
+            itemId: itemId,
+            isThumbnail: true
+        },
+        function(result) {
+            var html = '',
+                chunk = [];
+            while (result.images && result.images.length > 0) {
+                chunk = result.images.splice(0,3);
+                html += methods.buildItemPictureRowHtml(chunk);
+            }
+            $('#item-images').html(html);
+        });
+    };
+
+    methods.deletePicture = function(itemImageId, itemId) {
+        base.makeApiCall('default/image/delete', {
+            itemImageId: itemImageId
+        },
+        function(result) {
+            methods.getPictures(itemId);
+            $('#edit-picture-modal').modal('hide');
+        });
+    };
+
+    methods.makeDefaultPicture = function(itemImageId, itemId) {
+        base.makeApiCall('default/image/make-default', {
+            itemImageId: itemImageId
+        },
+        function(result) {
+            if(result.success) {
+               $('#make-default-picture').html('<span class="badge">default image</span>');
+               methods.getPictures(itemId);
+            }
+        });
+    };
+
     methods.setLocationText = function (text) {
         $('#change-location span.location').html(
             text || $('#filter-locations option:selected').text()
@@ -139,7 +178,11 @@ Inventory.prototype.modules.home = function (base, index) {
         $.each(items || [], function (key, val) {
             html += '<div class="col-sm-6 col-md-4 item">' +
                         '<div class="thumbnail">' +
-                            '<img src="/img/default/default-item.png">' +
+                           '<img src="/' + ( val.itemImageId ?
+                                ('image/index/image/' + val.itemImageId) :
+                                'img/default/default-item.png'
+                            ) +
+                            '">' +
                             '<div class="caption">' +
                                 '<h3>' + val.name + '</h3>' +
                                 '<p>Description: ' + val.description + '</p>' +
@@ -150,6 +193,24 @@ Inventory.prototype.modules.home = function (base, index) {
                                         'data-item-id="' + val.itemId +'">&nbsp;Edit&nbsp;</a>' +
                                 '</div>' +
                             '</div>' +
+                        '</div>' +
+                    '</div>';
+        });
+        html += '</div>';
+        return html;
+    };
+
+    methods.buildItemPictureRowHtml = function (images) {
+        var html = '<div class="row">';
+        $.each(images || [], function (key, val) {
+            html += '<div class="col-sm-6 col-md-4 item">' +
+                        '<div class="thumbnail">' +
+                            '<img src="/image/index/image/' + val.itemImageId + '" '+
+                            'class="item-image" ' +
+                            'data-item-image-id="' + val.itemImageId + '" '+
+                            'data-item-id="' + val.itemId + '" '+
+                            'data-is-default="' + val.defaultImage + '" '+
+                            '>' +
                         '</div>' +
                     '</div>';
         });
@@ -185,11 +246,118 @@ Inventory.prototype.modules.home = function (base, index) {
         $('#modify-item').toggleClass('hide', !showForm);
     };
 
+    methods.uplaodPicture = function(itemId) {
+        self.pictureUploader = new AjaxUpload($('#add-picture'), {
+            action: '/api',
+            name: 'image',
+            data: {
+                url: 'default/image/add',
+                itemId: itemId
+            },
+            onChange: function(file, extension) {
+                var infoArea = $('#add-picture').next();
+                if(methods.isValidImage(extension)) {
+                    infoArea.removeClass('hide').html(
+                        '<strong>Image Selected: </strong>' + file
+                    );
+                    $('#save-picture').removeClass('disabled').prop('disabled', false);
+                } else {
+                    infoArea.removeClass('hide').html(
+                        '<p class="text-danger">' +
+                            file + ' is not a valid image' +
+                        '</p>'
+                    );
+                    $('#save-picture').addClass('disabled').prop('disabled', true);
+                }
+            },
+            onSubmit: function(file, extension) {
+                var infoArea = $('#add-picture').next();
+                if(!methods.isValidImage(extension)) {
+                    infoArea.removeClass('hide').html(
+                        '<p class="text-danger">' +
+                            file + ' is not a valid image' +
+                        '</p>'
+                    );
+                    $('#save-picture').addClass('disabled').prop('disabled', true);
+                    return false;
+                }
+                return true;
+            },
+            autoSubmit: false,
+            responseType: 'json',
+            timeout: 300,
+            onComplete: function(file, response) {
+                if(response.success) {
+                    $('#picture-modal').modal('hide');
+                    methods.getPictures(itemId);
+                }
+            }
+        });
+    };
+
+    methods.isValidImage = function(extension) {
+        var validExtensions = ['jpg', 'gif', 'png'];
+         return validExtensions.indexOf(
+                    extension.trim()
+                    .toLowerCase()
+                ) > -1;
+    };
+
     this.dispatch = function () {
-        $('#filter-locations').on('change select', function(){
+        $('#save-picture').click(function(){
+            self.pictureUploader.submit();
+        });
+
+        $('#filter-locations').on('change select', function() {
             methods.getUnits($(this).val(), $('#filter-units'), false);
             methods.getItemTypes($(this).val(),$('#filter-item-type'), true);
         });
+
+        $('#display-item').on('click', '.thumbnail img', function() {
+            var itemId = $(this).next().find('.edit-item').data('item-id');
+            methods.getPictures(itemId);
+            methods.uplaodPicture(itemId);
+
+            $('#display-item').addClass('hide');
+            $('#picture-item')
+                .removeClass('hide')
+                .find('h1 span').html(
+                    $(this).next().find('h3').html()
+                );
+        });
+        $('#picture-item').on('click', '.thumbnail img', function() {
+            var html = '';
+            $('#edit-picture-form input[name="itemImageId"]').val($(this).data('item-image-id'));
+            $('#edit-picture-form input[name="itemId"]').val($(this).data('item-id'));
+            $('#edit-picture-form img').prop('src', '/image/index/image/' + $(this).data('item-image-id'));
+            if($(this).data('is-default') == '1') {
+                html = '<span class="badge">default image</span>'
+            } else {
+                html = '<button type="button" class="btn btn-info">Make Default Image</button>'
+            }
+            $('#make-default-picture').html(html);
+            $('#edit-picture-modal').modal('show');
+        });
+
+        $('#edit-picture-form').on('click', '#delete-picture', function() {
+            methods.deletePicture (
+                $('#edit-picture-form input[name="itemImageId"]').val(),
+                $('#edit-picture-form input[name="itemId"]').val()
+            );
+        });
+
+        $('#make-default-picture').on('click', 'button', function() {
+            methods.makeDefaultPicture (
+                $('#edit-picture-form input[name="itemImageId"]').val(),
+                $('#edit-picture-form input[name="itemId"]').val()
+            );
+        });
+
+        $('#cancel-add-item-picture').click(function() {
+            $('#picture-item').addClass('hide');
+            $('#display-item').removeClass('hide');
+        });
+
         $('#filter-item-type').change(function () {
             $('.page-header small:first').text(
                 ':' + $(this).find('option:selected').text()
@@ -268,5 +436,12 @@ Inventory.prototype.modules.home = function (base, index) {
             $('.item-form-hide').toggleClass('hide', false);
             methods.showForm(true);
         });
+
+        $('#picture-modal').on('hidden.bs.modal', function (e) {
+            $('#add-picture').next().addClass('hide').html('');
+            $('#save-picture').addClass('disabled').prop('disabled', true);
+        });
+
     };
+
 };

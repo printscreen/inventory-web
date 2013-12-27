@@ -11,6 +11,7 @@ class ApiController extends Zend_Controller_Action
             'maxredirects' => 0,
             'timeout'      => 30
         ));
+
         $client->setMethod(Zend_Http_Client::POST);
         $client->setParameterPost(array_merge(
             $this->getRequest()->getParams(),
@@ -18,6 +19,13 @@ class ApiController extends Zend_Controller_Action
                 'token' => Zend_Registry::get(SESSION)->token
             )
         ));
+
+        if(is_array($_FILES) && count($_FILES) > 0) {
+            foreach($_FILES as $name => $val) {
+                $client->setFileUpload($val['tmp_name'], $name);
+            }
+        }
+
         $response = $client->request();
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);

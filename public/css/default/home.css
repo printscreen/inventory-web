@@ -1,3 +1,9 @@
 #items .row {
     margin-bottom: 20px;
 }
+#picture-form .well {
+    width: 400px;
+}
+#item-images .thumbnail {
+    margin-bottom: 20px;
+}
