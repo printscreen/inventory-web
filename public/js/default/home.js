@@ -146,6 +146,10 @@ Inventory.prototype.modules.home = function (base, index) {
             if(result.success) {
                $('#make-default-picture').html('<span class="badge">default image</span>');
                methods.getPictures(itemId);
+               $('a[data-item-id="'+ itemId +'"]')
+               .closest('.caption')
+               .prev()
+               .prop('src', '/image/index/image/' + itemImageId);
             }
         });
     };

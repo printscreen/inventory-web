@@ -7,3 +7,9 @@
 #item-images .thumbnail {
     margin-bottom: 20px;
 }
+
+#edit-picture-form img {
+    display: block;
+    height: auto;
+    max-width: 100%;
+}
