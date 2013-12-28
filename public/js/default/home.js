@@ -149,7 +149,7 @@ Inventory.prototype.modules.home = function (base, index) {
                $('a[data-item-id="'+ itemId +'"]')
                .closest('.caption')
                .prev()
-               .prop('src', '/image/index/image/' + itemImageId);
+               .prop('src', '/image/index/image/' +  itemImageId);
             }
         });
     };
@@ -294,6 +294,12 @@ Inventory.prototype.modules.home = function (base, index) {
                 if(response.success) {
                     $('#picture-modal').modal('hide');
                     methods.getPictures(itemId);
+                    if(response.thumbnail.defaultImage) {
+                        $('a[data-item-id="'+ response.thumbnail.itemId +'"]')
+                           .closest('.caption')
+                           .prev()
+                           .prop('src', '/image/index/image/' +  response.thumbnail.itemImageId);
+                    }
                 }
             }
         });
