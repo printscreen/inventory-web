@@ -314,6 +314,7 @@ Inventory.prototype.modules.home = function (base, index) {
     };
 
     this.dispatch = function () {
+        methods.getLocations($('#filter-locations'), '');
         $('#save-picture').click(function(){
             self.pictureUploader.submit();
         });
@@ -321,6 +322,7 @@ Inventory.prototype.modules.home = function (base, index) {
         $('#filter-locations').on('change select', function() {
             methods.getUnits($(this).val(), $('#filter-units'), false);
             methods.getItemTypes($(this).val(),$('#filter-item-type'), true);
+            methods.setLocationText();
         });
 
         $('#display-item').on('click', '.thumbnail img', function() {
@@ -385,7 +387,7 @@ Inventory.prototype.modules.home = function (base, index) {
         	methods.showForm(true);
             $('#modify-item h1').html('Add an item');
         });
-        methods.getLocations($('#filter-locations'), '');
+
 
         $('#cancel-save-item').click(function () {
         	methods.showForm(false);
