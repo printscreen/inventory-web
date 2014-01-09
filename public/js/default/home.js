@@ -425,6 +425,7 @@ Inventory.prototype.modules.home = function (base, index) {
                 item.display($('#item-form-body'));
                 $('.item-form-hide').toggleClass('hide', false);
             } else {
+
                 item.reset($('#item-form-body'));
                 $('.item-form-hide').toggleClass('hide', true);
             }

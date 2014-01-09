@@ -20,8 +20,8 @@ Inventory.ItemType = function (itemId, itemTypeId, base, deconstruct) {
 
     this.reset = function (container) {
     	var form = container.closest('form');
-        form.unbind('submit');
     	$.removeData(form.get(0), 'validator');
+        form.unbind('submit');
         container.html('');
         self.rules = {};
     };
@@ -97,7 +97,7 @@ Inventory.ItemType = function (itemId, itemTypeId, base, deconstruct) {
 
     methods.saveForm = function (form) {
     	var formAttributes = {};
-    	$.each(form.find('.attribute'), function(key,val) {
+    	$.each(form.find('.attribute') || [], function(key,val) {
     	    formAttributes[$(val).attr('name')] = $(val).val();
     	});
     	base.makeApiCall('default/item/edit', {
@@ -245,7 +245,7 @@ Inventory.ItemTypeSelect = function (options, values) {
 		var select = '',
 			html = '';
 
-		$.each(options.value, function (key, val) {
+		$.each(options.value || [], function (key, val) {
 			select += '<option value="' + val + '" '+
             (values[options.name] === val ? ' selected="selected"' : '')
             +'>' + val + '</option>';

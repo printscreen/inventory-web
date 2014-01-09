@@ -18,7 +18,6 @@ var Inventory = function (parameters) {
 
     this.displayFormErrors = function (form, errors) {
         $.each(errors.errorMap || errors, function (key, val) {
-            console.log(key, val);
             $('[name=\"' + key + '\"]').closest('.form-group').find('.help-block').html(val);
             $('[name=\"' + key + '\"]').closest('.form-group').addClass('has-error');
         });
