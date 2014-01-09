@@ -96,7 +96,6 @@ Inventory.ItemType = function (itemId, itemTypeId, base, deconstruct) {
     };
 
     methods.saveForm = function (form) {
-        console.log('here!');
     	var formAttributes = {};
     	$.each(form.find('.attribute'), function(key,val) {
     	    formAttributes[$(val).attr('name')] = $(val).val();
