@@ -222,12 +222,12 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             $(this).tab('show');
         });
         $('a[href="#locations"]').on('show', function (e) {
-            $('#locations .manage-locations').html('');
+            $('#locations .manage-multiselect').html('');
             $('#locations form').clearForm();
         });
         $('#customer-search').change(function () {
             if($(this).val() === '') {
-                $('#locations .manage-locations').html('');
+                $('#locations .manage-multiselect').html('');
                 return;
             }
             methods.getLocations(

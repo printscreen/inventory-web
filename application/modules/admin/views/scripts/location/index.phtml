@@ -1,26 +1,64 @@
 <div class="row">
-    <div class="pull-right">
-        <button type="button" class="btn btn-default" data-toggle="button" id="active-location">Show: Active</button>
-        <a href="#" class="btn btn-primary" id="add-location"><span class="glyphicon glyphicon-plus"></span></a>
+    <div class="col-md-3">
+        <ul class="nav nav-pills" id="location-tabs">
+          <li class="active"><a href="#manage">Manage</a></li>
+          <li><a href="#modules">Modules</a></li>
+        </ul>
     </div>
 </div>
-<br />
-<table class="locations table table-responseive table-hover">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Street</th>
-            <th>City</th>
-            <th>State</th>
-            <th>Zip</th>
-            <th>Phone Number</th>
-            <th>Active</th>
-        </tr>
-    </thead>
-    <tbody>
-    
-    </tbody>
-</table>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="manage">
+        <div class="row">
+            <div class="pull-right">
+                <button type="button" class="btn btn-default" data-toggle="button" id="active-location">Show: Active</button>
+                <a href="#" class="btn btn-primary" id="add-location"><span class="glyphicon glyphicon-plus"></span></a>
+            </div>
+        </div>
+        <br />
+        <table class="locations table table-responseive table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Zip</th>
+                    <th>Phone Number</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane multi-select" id="modules">
+        <form>
+            <div class="row">
+                <div class="col-md-3">
+                    <select class="form-control" id="location-search"></select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <select class="manage-multiselect form-control input-lg" name="add" multiple></select>
+                </div>
+                <div class="col-md-2">
+                    <div class="row text-center">
+                        <a href="#" data-toggle="add" class="btn btn-success modify-module" >Add &gt;&gt;</a>
+                    </div>
+                    <div class="row text-center">
+                        <a href="#" data-toggle="delete" class="btn btn-danger modify-module" >&lt;&lt; Delete</a>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <select class="manage-multiselect form-control input-lg" name="delete" multiple></select>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 <div class="modal fade" role="dialog" id="location-form">
     <div class="modal-dialog">
         <div class="modal-content">

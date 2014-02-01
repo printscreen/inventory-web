@@ -6,7 +6,7 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
         offset = 0,
         limit = 20,
         active = true;
-    
+
     methods.saveForm = function () {
         base.makeApiCall(
               'admin/location/edit'
@@ -21,15 +21,15 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
                         result.errors
                     );
                 }
-                
+
             }
         );
     };
-    
+
     methods.populateTable = function (locations) {
         var body = '';
         $.each(locations, function (key, val) {
-            body += 
+            body +=
                 '<tr data-location-id="' + val.locationId + '">' +
                     '<td>'+ val.name + '</td>' +
                     '<td>'+ val.street + '</td>' +
@@ -42,7 +42,18 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
         });
         $('table.locations tbody').html(body);
     };
-    
+
+    methods.populateDropdown = function (locations) {
+        var select = '<option value="">Select a Location</option>';
+        $.each(locations, function (key, val) {
+            select +=
+                '<option value="' + val.locationId + '">' +
+                    val.name +
+                '</option>';
+        });
+        $('#location-search').html(select);
+    };
+
     methods.populateForm = function (location) {
         var form = $('#location-form form');
         form.find('input[name="locationId"]').val(location.locationId);
@@ -54,7 +65,20 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
         form.find('input[name="phoneNumber"]').val(location.phoneNumber);
         form.find('select[name="active"]').val((location.active == '1' ? 'true' : 'false'));
     };
-    
+
+    methods.populateModules = function(modules, select, locationId) {
+        var options = '';
+        $.each(modules, function (key, val) {
+            options +=
+                '<option ' +
+                'data-location-id="' + locationId + '" ' +
+                'value="' + val.moduleId + '">'
+                    + (val.name || val.moduleName) +
+                '</option>';
+        });
+        select.html(options);
+    };
+
     methods.getLocations = function () {
         base.makeApiCall('admin/location/view', {
                 sort: sort,
@@ -62,25 +86,62 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
                 limit: limit,
                 active: active
             }, function(result) {
-                methods.populateTable(result.locations);  
+                methods.populateTable(result.locations);
+                methods.populateDropdown(result.locations);
             }
         );
     };
-    
+
     methods.getLocation = function (locationId) {
         base.makeApiCall('admin/location/get', {
                 locationId: locationId
             }, function(result) {
-                methods.populateForm(result.location);  
+                methods.populateForm(result.location);
             }
         );
     };
-    
+
+    methods.getModules = function (locationId, available, select) {
+        base.makeApiCall('admin/module/view-location-module', {
+                locationId: locationId,
+                available: available
+            }, function(result) {
+                methods.populateModules(
+                    result.locationModules.locationModules,
+                    select,
+                    locationId
+                );
+            }
+        );
+    };
+
+    methods.editModules = function (isAdd) {
+        var to = isAdd ? $('#modules select[name="delete"]') : $('#modules select[name="add"]'),
+            from = isAdd ? $('#modules select[name="add"]') : $('#modules select[name="delete"]'),
+            options = from.find('option:selected').remove(),
+            moduleIds = [],
+            locationId = $(options.get(0)).data('location-id');
+
+        $.each(options, function (key, val) {
+            moduleIds.push($(val).val());
+        });
+        base.makeApiCall(
+                isAdd ? 'admin/module/add-location-module' : 'admin/module/delete-location-module', {
+                locationId: locationId,
+                moduleId: moduleIds
+            }, function(result) {
+                if(result.success) {
+                    options.appendTo(to);
+                }
+            }
+        );
+    };
+
     methods.form = function () {
         $('#location-form form').validate({
             rules: {
                 locationId : {
-                    required: function(){ 
+                    required: function(){
                         return $('#location-form form')
                         .find('input[name="locationId"]')
                         .is(':disabled');
@@ -109,7 +170,7 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
             submitHandler: methods.saveForm
         });
     };
-    
+
     methods.showForm = function (locationId) {
         $('#location-form form').clearForm();
         if(!isNaN(parseInt(locationId))) {
@@ -122,7 +183,7 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
         }
         $('#location-form').modal('show');
     };
-    
+
     this.dispatch = function () {
         methods.form();
         methods.getLocations(1, 0, 20);
@@ -130,15 +191,35 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
         $('.locations tbody').on('click', 'tr', function() {
             methods.showForm($(this).data('location-id'));
         });
+        $('#location-tabs a').click(function (e) {
+            e.preventDefault();
+            $(this).tab('show');
+        });
         $('#add-location').click(function(){
             methods.showForm('');
         });
         $('#submit-form').click(function(){
             $('#location-form form').submit();
         });
-        
+
         $('#location-form').on('hide', function() {
             base.clearErrors($('#location-form form'));
+        });
+        $('#location-search').change(function () {
+            if($(this).val() === '') {
+                $('#modules .manage-multiselect').html('');
+                return;
+            }
+            methods.getModules(
+                $(this).val(),
+                true,
+                $('#modules select[name="add"]')
+            );
+            methods.getModules(
+                $(this).val(),
+                false,
+                $('#modules select[name="delete"]')
+            );
         });
         $('#active-location').click(function(){
             if($(this).hasClass('active')) {
@@ -150,6 +231,10 @@ Inventory.prototype.modules.adminLocations = function (base, index) {
             }
             //active = !active;
             methods.getLocations();
+        });
+        $('.modify-module').click(function (e) {
+            e.preventDefault();
+            methods.editModules($(this).data('toggle') == 'add');
         });
     };
 };

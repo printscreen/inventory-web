@@ -348,7 +348,7 @@ Inventory.prototype.modules.adminItem = function (base, index) {
             $(this).tab('show');
         });
         $('#location-search').change(function () {
-            $('.manage-locations').html('');
+            $('.manage-multiselect').html('');
             if($(this).val() !== '') {
                 methods.getLocationItemTypes($(this).val());
                 methods.getLocationAvailableItemTypes($(this).val());

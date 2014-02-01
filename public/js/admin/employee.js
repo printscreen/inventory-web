@@ -6,7 +6,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
         offset = 0,
         limit = 20,
         active = true;
-    
+
     methods.saveForm = function () {
         base.makeApiCall(
               'admin/user/edit-employee'
@@ -14,7 +14,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             , function(result) {
                 if(result.success) {
                     methods.getEmployees();
-                    $('#user-form').modal('hide'); 
+                    $('#user-form').modal('hide');
                 } else {
                     base.displayFormErrors(
                         $('#user-form form'),
@@ -24,19 +24,19 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             }
         );
     };
-    
+
     methods.populate = function (users) {
         var body = '';
         var options = '<option value="">Select an Employee</option>';
         $.each(users, function (key, val) {
-            body += 
+            body +=
                 '<tr data-user-id="' + val.userId + '">' +
                     '<td>'+ val.firstName + '</td>' +
                     '<td>'+ val.lastName + '</td>' +
                     '<td>'+ val.email + '</td>' +
                     '<td>'+ (val.active == '1' ? 'Yes' : 'No') + '</td>' +
                 '</tr>';
-            options += 
+            options +=
                 '<option value="'+val.userId+'">'
                     + val.lastName + ', ' + val.firstName +
                 '</option>';
@@ -44,7 +44,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
         $('table.users tbody').html(body);
         $('#employee-search').html(options);
     };
-    
+
     methods.populateForm = function (user) {
         var form = $('#user-form form');
         form.find('input[name="userId"]').val(user.userId);
@@ -53,11 +53,11 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
         form.find('input[name="email"]').val(user.email);
         form.find('select[name="active"]').val((user.active == '1' ? 'true' : 'false'));
     };
-    
+
     methods.populateLocations = function(locations, select, userId) {
         var options = '';
         $.each(locations, function (key, val) {
-            options += 
+            options +=
                 '<option ' +
                 'data-user-id="' + userId + '" ' +
                 'value="' + val.locationId + '">'
@@ -66,7 +66,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
         });
         select.html(options);
     };
-    
+
     methods.getEmployees = function () {
         base.makeApiCall('admin/user/view-employee', {
                 sort: sort,
@@ -74,25 +74,25 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
                 limit: limit,
                 active: active
             }, function(result) {
-                methods.populate(result.users);  
+                methods.populate(result.users);
             }
         );
     };
-    
+
     methods.getEmployee = function (userId) {
         base.makeApiCall('admin/user/get', {
                 userId: userId
             }, function(result) {
-                methods.populateForm(result.user);  
+                methods.populateForm(result.user);
             }
         );
     };
-    
+
     methods.form = function () {
         $('#user-form form').validate({
             rules: {
                 userId : {
-                    required: function(){ 
+                    required: function(){
                         return $('#user-form form')
                         .find('input[name="userId"]')
                         .is(':disabled');
@@ -118,7 +118,7 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             submitHandler: methods.saveForm
         });
     };
-    
+
     methods.showForm = function (userId) {
         $('#user-form form').clearForm();
         if(!isNaN(parseInt(userId))) {
@@ -133,28 +133,28 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
         }
         $('#user-form').modal('show');
     };
-    
+
     methods.getLocations = function (userId, available, select) {
         base.makeApiCall('admin/user/view-user-location', {
                 userId: userId,
                 available: available
             }, function(result) {
                 methods.populateLocations(
-                    result.userLocations.userLocations, 
-                    select, 
+                    result.userLocations.userLocations,
+                    select,
                     userId
-                );  
+                );
             }
         );
     };
-    
+
     methods.editLocations = function (isAdd) {
         var to = isAdd ? $('#locations select[name="delete"]') : $('#locations select[name="add"]'),
             from = isAdd ? $('#locations select[name="add"]') : $('#locations select[name="delete"]'),
             options = from.find('option:selected').remove(),
             locationIds = [],
             userId = $(options.get(0)).data('user-id');
-            
+
         $.each(options, function (key, val) {
             locationIds.push($(val).val());
         });
@@ -165,11 +165,11 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             }, function(result) {
                 if(result.success) {
                     options.appendTo(to);
-                } 
+                }
             }
         );
     };
-    
+
     this.dispatch = function () {
         methods.form();
         methods.getEmployees();
@@ -201,12 +201,12 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             $(this).tab('show');
         });
         $('a[href="#locations"]').on('show', function (e) {
-            $('#locations .manage-locations').html('');
+            $('#locations .manage-multiselect').html('');
             $('#locations form').clearForm();
         });
         $('#employee-search').change(function () {
             if($(this).val() === '') {
-                $('#locations .manage-locations').html('');
+                $('#locations .manage-multiselect').html('');
                 return;
             }
             methods.getLocations(
