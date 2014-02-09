@@ -25,6 +25,22 @@
                 <li <?= $url=='/admin/user/customer'?'class="active"':''; ?>><a href="/admin/user/customer">Customers</a></li>
                 <li <?= $url=='/admin/unit/index'?'class="active"':''; ?>><a href="/admin/unit/index">Units</a></li>
                 <?php } ?>
+                <li class="dropdown" id="modules-dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">Modules<b class="caret"></b></a>
+                    <div class="dropdown-menu module-dropdown">
+                        <form>
+                            <div class="form-group">
+                                <select class="form-control" name="location">
+                                    <option>Select a location</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="module" disabled="disabled">
+                                    <option>Select a module</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </li>
                 <li><a href="/auth/logout">Logout</a></li>
             </ul>
         </div>

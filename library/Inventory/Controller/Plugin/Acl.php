@@ -5,7 +5,7 @@ class Inventory_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 	protected $_publicControllers;
 	protected $_publicActions;
 	private $_aclFile;
-	
+
 	public function __construct($aclFile)
 	{
 		$this->_aclFile = $aclFile;
@@ -19,15 +19,15 @@ class Inventory_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 				, 'default:auth:logout'
 				, 'default:error:error');
 	}
-	
+
     public function dispatchLoopStartup(Zend_Controller_Request_Abstract $request)
 	{
 	    //If not dispatchable
 		if(!(Zend_Controller_Front::getInstance()->getDispatcher()->isDispatchable($request))) {
             return false;
         }
-	    
-	    $reqModule = $this->getRequest()->getModuleName();  
+
+	    $reqModule = $this->getRequest()->getModuleName();
 		$reqController = $this->getRequest()->getControllerName();
 		$reqAction = $this->getRequest()->getActionName();
 		$reqModuleStr = $reqModule;
@@ -40,17 +40,17 @@ class Inventory_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			return;
 		}
 
-	    $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');    
-		if(!Zend_Auth::getInstance()->hasIdentity() || empty(Zend_Registry::get(SESSION)->userId)) {			
+	    $r = Zend_Controller_Action_HelperBroker::getStaticHelper('redirector');
+		if(!Zend_Auth::getInstance()->hasIdentity() || empty(Zend_Registry::get(SESSION)->userId)) {
     		if($request->isXMLHttpRequest()) {
     		    header('Cache-Control: no-cache, must-revalidate');
                 header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
                 header('Content-type: text/json');
                 echo json_encode(array(
-                	'sessionExpired'=>true, 
+                	'sessionExpired'=>true,
                 	'url' => '/auth/login',
                     'message' => 'Your session has expired. Redirecting to the Login page.'
-                ));     
+                ));
     		} else {
     		    $r->gotoUrl('/auth/login')->redirectAndExist();
     		}
@@ -61,9 +61,17 @@ class Inventory_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			if ($dispatcher->isDispatchable($request)) {
 			    $userAcl = new Model_Acl(
     			    $this->_aclFile,
-    			    array('userTypeId' => Zend_Registry::get(SESSION)->userTypeId)
+    			    array('userTypeId' => Zend_Registry::get(SESSION)->userTypeId),
+                    $this->getRequest()->getParam('locationId')
     			);
     			$userAcl->initAcl();
+                //Handle modules. Only load if module is requested
+                if($reqModule != 'default' && $reqModule != 'admin') {
+                    $userAcl->initModuleAcl(
+                        Zend_Registry::get(SESSION)->token,
+                        $this->getRequest()->getParam('locationId')
+                    );
+                }
     			$denied = true;
     			try {
     				if($userAcl->isAllowed($userAcl->getUserTypeId(), $reqActionStr, 'access')) {
@@ -75,7 +83,7 @@ class Inventory_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
     			if($denied) {
     				throw new Inventory_Acl_Exception('Resource Denied');
     			}
-			}	
+			}
 		}
 	}
 }

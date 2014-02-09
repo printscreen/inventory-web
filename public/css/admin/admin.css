@@ -25,3 +25,8 @@
     overflow-x: hidden;
     outline: none;
 }
+.module-dropdown {
+    padding: 15px;
+    padding-bottom: 0px;
+    width: 215px;
+}

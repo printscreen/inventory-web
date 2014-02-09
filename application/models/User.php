@@ -4,7 +4,7 @@ class Model_User extends Model_Base_Http
 	const USER_TYPE_ADMIN = 1;
 	const USER_TYPE_EMPLOYEE = 2;
 	const USER_TYPE_CUSTOMER = 3;
-    
+
     protected $_userId;
 	protected $_firstName;
 	protected $_lastName;
@@ -12,7 +12,7 @@ class Model_User extends Model_Base_Http
 	protected $_userTypeId;
 	protected $_active;
 	protected $_total;
-	
+
 	public function __construct(array $options = array())
 	{
 	    $settings = array_merge(array(
@@ -33,14 +33,14 @@ class Model_User extends Model_Base_Http
 		$this->_userTypeId = $settings['userTypeId'];;
 		$this->_active = $settings['active'];;
 	}
-	
+
 	public function isActive()
 	{
 		return $this->_active;
 	}
-	
+
 	public function loadRecord($record)
-	{		
+	{
 		$this->_userId = $record->userId;
 		$this->_firstName = $record->firstName;
 		$this->_lastName = $record->lastName;
@@ -51,7 +51,7 @@ class Model_User extends Model_Base_Http
 
 		return $this;
 	}
-	
+
 	public function loadUserIntoSession(&$session)
 	{
 	    $session->userId = $this->_userId;
@@ -59,20 +59,19 @@ class Model_User extends Model_Base_Http
         $session->firstName = $this->_firstName;
         $session->lastName = $this->_lastName;
         $session->userTypeId = $this->_userTypeId;
-        
+
         return $this;
 	}
-		
-	public function load()
-	{
 
-	}
-		
-	public function save()
+	public function getUserLocationModules($token)
 	{
-
+		return  $this->request(
+			'profile/module/index', array(
+            'token' => $token
+        	)
+        );
 	}
-	
+
 	//Setters
 	public function setUserId($userId){$this->_userId = $userId; return $this;}
 	public function setFirstName($firstName){$this->_firstName = $firstName; return $this;}
@@ -80,7 +79,7 @@ class Model_User extends Model_Base_Http
 	public function setEmail($email){$this->_email = $email; return $this;}
 	public function setUserTypeId($userTypeId){$this->_userTypeId = $userTypeId; return $this;}
 	public function setActive($active){$this->_active = $active; return $this;}
-	
+
 	//Getters
 	public function getUserId(){return $this->_userId;}
 	public function getFirstName(){return $this->_firstName;}

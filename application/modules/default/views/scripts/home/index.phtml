@@ -3,6 +3,13 @@
         <span class="glyphicon glyphicon-chevron-down collapse-item" data-toggle="collapse" data-target="#recent-items"></span>
         <h1 class="collapse-item" data-toggle="collapse" data-target="#recent-items">Recently Modified</h1>
         <form class="pull-right form-inline">
+            <div class="btn-group hide">
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    Tools <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                </ul>
+            </div>
             <div class="form-group">
                 <a data-toggle="modal" id="change-location" class="btn btn-default" href="#change-location-modal">
                     <span class="location"></span>:
@@ -13,7 +20,6 @@
             <div class="form-group">
                 <a href="#" class="btn btn-primary" id="add-item"><span class="glyphicon glyphicon-plus"></span></a>
             </div>
-
         </form>
     </div>
     <div id="recent-items" class="collapse in"></div>
