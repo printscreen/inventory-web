@@ -7,7 +7,8 @@ Inventory.prototype.modules.home = function (base, index) {
         limit = 20,
         active = true,
         locationId = null,
-        pictureUploader = {};
+        pictureUploader = {},
+        blinkAddItem = false;
 
     methods.populateLocations = function(locations, select, defaultOption) {
         var options = defaultOption ? '<option value="">Select a Location</option>' : '';
@@ -22,7 +23,7 @@ Inventory.prototype.modules.home = function (base, index) {
 
     methods.populateUnits = function(units, select, defaultOption) {
         var options = defaultOption ? '<option value="">Select a Unit</option>' : '';
-        $.each(locations || {}, function (key, val) {
+        $.each(units || {}, function (key, val) {
             options +=
                 '<option value="' + val.unitId + '">'
                     + val.name +
@@ -45,7 +46,6 @@ Inventory.prototype.modules.home = function (base, index) {
                     $('.item-type'),
                     'Select an item type'
                 );
-                $(select).trigger('change');
             }
         );
     };
@@ -79,19 +79,13 @@ Inventory.prototype.modules.home = function (base, index) {
         base.makeApiCall('default/unit/view', {
             locationId: locationId
         }, function(result) {
-                methods.populateLocations(
+                methods.populateUnits(
                     result.units,
                     select,
                     defaultOption
                 );
                 methods.setUnitText();
                 $(select).trigger('change');
-
-                methods.displayInventory(
-                    $(select).val(),
-                    $('#filter-item-type').val(),
-                    false
-                );
             }
         );
     };
@@ -169,12 +163,32 @@ Inventory.prototype.modules.home = function (base, index) {
     methods.populateInventory = function (filteredItems, recentlyModified) {
         var html = '',
             chunk = [];
+        if(!filteredItems.length && !recentlyModified.length) {
+            $('#recent-items').html('<h2>To add your first item click on the blue plus button located in the upper right hand corner</h2>');
+            $('#items').html('');
+            methods.blinkButton(true);
+            return;
+        }
+        methods.blinkButton(false);
+        $('#add-item').toggleClass('highlight', false);
         while (filteredItems && filteredItems.length > 0) {
             chunk = filteredItems.splice(0,3);
             html += methods.buildItemRowHtml(chunk);
         }
         $('#items').html(html);
         $('#recent-items').html(methods.buildItemRowHtml(recentlyModified));
+    };
+
+    methods.blinkButton = function (toggle) {
+        if(toggle && !self.blinkAddItem) {
+            self.blinkAddItem = setInterval(function(){
+                $('#add-item').toggleClass('highlight', toggle);
+                toggle = !toggle;
+            }, 2000);
+        } else if(!toggle) {
+            clearInterval(self.blinkAddItem);
+            self.blinkAddItem = false;
+        }
     };
 
     methods.buildItemRowHtml = function (items) {
@@ -246,7 +260,7 @@ Inventory.prototype.modules.home = function (base, index) {
     };
 
     methods.showForm = function (showForm) {
-    	$('#display-item').toggleClass('hide', showForm);
+        $('#display-item').toggleClass('hide', showForm);
         $('#modify-item').toggleClass('hide', !showForm);
     };
 
@@ -337,6 +351,7 @@ Inventory.prototype.modules.home = function (base, index) {
                     $(this).next().find('h3').html()
                 );
         });
+
         $('#picture-item').on('click', '.thumbnail img', function() {
             var html = '';
             $('#edit-picture-form input[name="itemImageId"]').val($(this).data('item-image-id'));
@@ -370,6 +385,10 @@ Inventory.prototype.modules.home = function (base, index) {
             $('#display-item').removeClass('hide');
         });
 
+        $('#filter-units').change(function(){
+            $('#filter-item-type').trigger('change');
+        });
+
         $('#filter-item-type').change(function () {
             $('.page-header small:first').text(
                 ':' + $(this).find('option:selected').text()
@@ -380,17 +399,17 @@ Inventory.prototype.modules.home = function (base, index) {
                 false
             );
         });
+
         $('#add-item').click(function() {
             $('#add-item-type').prop('disabled', false);
             $('#item-form').get(0).reset();
             $('#item-form-body').html('');
-        	methods.showForm(true);
+            methods.showForm(true);
             $('#modify-item h1').html('Add an item');
         });
 
-
         $('#cancel-save-item').click(function () {
-        	methods.showForm(false);
+            methods.showForm(false);
         });
 
         $('#items, #recent-items').on('hide.bs.collapse', function () {
@@ -409,17 +428,17 @@ Inventory.prototype.modules.home = function (base, index) {
 
         $('#add-item-type').change(function() {
             var item = new Inventory.ItemType(
-        		null,
-        		$(this).val(),
-        		base,
-        		function() {
-        			methods.showForm(false);
-        			methods.displayInventory(
-        				$('#filter-units').val(),
+                null,
+                $(this).val(),
+                base,
+                function() {
+                    methods.showForm(false);
+                    methods.displayInventory(
+                        $('#filter-units').val(),
                         $('#filter-item-type').val(),
                         true
-        			);
-        		}
+                    );
+                }
             );
             if($(this).val() != '') {
                 item.display($('#item-form-body'));
@@ -429,8 +448,8 @@ Inventory.prototype.modules.home = function (base, index) {
                 item.reset($('#item-form-body'));
                 $('.item-form-hide').toggleClass('hide', true);
             }
-
         });
+
         $('#display-item').on('click', '.edit-item', function() {
             var item = new Inventory.ItemType(
                 $(this).data('item-id'),
