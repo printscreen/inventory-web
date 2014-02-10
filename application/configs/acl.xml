@@ -5,8 +5,10 @@
         <resource>admin:user:employee</resource>
         <resource>admin:user:customer</resource>
         <resource>admin:unit:index</resource>
+        <resource>admin:item:index</resource>
         <resource>default:image:index</resource>
         <resource>default:profile:index</resource>
+        <resource>default:profile:clear-temporary-password</resource>
         <resource>default:api:index</resource>
         <resource>default:image:index</resource>
     </userType>
@@ -15,12 +17,14 @@
         <resource>admin:user:customer</resource>
         <resource>admin:unit:index</resource>
         <resource>default:profile:index</resource>
+        <resource>default:profile:clear-temporary-password</resource>
         <resource>default:api:index</resource>
         <resource>default:image:index</resource>
     </userType>
     <userType name="customer" id="3">
         <resource>default:home:index</resource>
         <resource>default:profile:index</resource>
+        <resource>default:profile:clear-temporary-password</resource>
         <resource>default:api:index</resource>
         <resource>default:image:index</resource>
     </userType>

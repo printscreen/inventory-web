@@ -225,10 +225,12 @@ Inventory.prototype.modules.adminEmployee = function (base, index) {
             methods.editLocations($(this).data('toggle') == 'add');
         });
         $('input[name="firstName"], input[name="lastName"]').keyup(function() {
-            $('#temp-password span').html(
-                $('input[name="firstName"]').val().toLowerCase() +
-                $('input[name="lastName"]').val().toLowerCase()
-            );
+            var password = $('input[name="firstName"]').val().toLowerCase() +
+                           $('input[name="lastName"]').val().toLowerCase();
+            $('#temp-password')
+                .toggleClass('hide', password.length === 0)
+                .find('span')
+                .html(password);
         });
     };
 };

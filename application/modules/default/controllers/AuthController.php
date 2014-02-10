@@ -22,6 +22,7 @@ class AuthController extends Zend_Controller_Action
             	$user->loadRecord($authAdapter->getUser())
             	     ->loadUserIntoSession($session);
             	$session->token = $authAdapter->getToken();
+                $session->hasTemporaryPassword = $authAdapter->hasTemporaryPassword();
                 if($user->getUserTypeId() == Model_User::USER_TYPE_ADMIN ||
                    $user->getUserTypeId() == Model_User::USER_TYPE_EMPLOYEE) {
                     $this->_redirect('/admin');

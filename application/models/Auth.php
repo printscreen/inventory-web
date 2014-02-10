@@ -5,6 +5,7 @@ class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface
     private $_password;
     private $_token;
     private $_user;
+    private $_hasTemporaryPassword;
     /**
      * Sets username and password for authentication
      *http://framework.zend.com/manual/en/zend.auth.html
@@ -40,6 +41,7 @@ class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface
 			$identity = $this->_email;
 			$this->_token = $response->token;
 			$this->_user = $response->user;
+            $this->_hasTemporaryPassword = $response->hasTemporaryPassword;
 		} else {
 			$atype = Zend_Auth_Result::FAILURE;
 			$identity = null;
@@ -74,5 +76,10 @@ class Model_Auth extends Model_Base_Http implements Zend_Auth_Adapter_Interface
     public function getUser()
     {
         return $this->_user;
+    }
+
+    public function hasTemporaryPassword()
+    {
+        return (bool)$this->_hasTemporaryPassword;
     }
 }

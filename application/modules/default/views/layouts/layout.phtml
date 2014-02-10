@@ -14,6 +14,10 @@
         <div id="wrap">
             <?php echo $this->partial('partials/menu.phtml', 'default'); ?>
             <div class="container">
+                <?php echo $this->partial('partials/temporary-password.phtml',
+                    'default',
+                    array('hasTemporaryPassword' => Zend_Registry::get(SESSION)->hasTemporaryPassword)
+                ); ?>
                 <?= $this->layout()->content; ?>
             </div>
         </div>

@@ -42,6 +42,8 @@ Inventory.prototype.modules.profile = function (base, index) {
                 $('#password-form').clearForm();
                 base.clearErrors($('#password-form'));
                 methods.saveToast();
+                $('#hasTemporaryPassword').remove();
+                $.getJSON('/default/profile/clear-temporary-password', function(){});
             } else {
                 base.displayFormErrors($('#password-form'), result.errors);
             }

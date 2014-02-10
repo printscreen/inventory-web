@@ -61,6 +61,23 @@ Inventory.prototype.modules.home = function (base, index) {
         select.html(options);
     };
 
+    methods.populateLocationModules = function (modules, div) {
+        var links = '';
+        if(modules.length === 0) {
+            div.toggleClass('hide', true);
+            return;
+        }
+        console.log(modules);
+        $.each(modules || [], function(key, val) {
+            links += '<li><a tabindex="-1" href="/'
+                  + val.moduleName.toLowerCase()
+                  + '?locationId=' + val.locationId
+                  +'">'+ val.moduleName +'</a></li>';
+        });
+        div.toggleClass('hide', false)
+           .find('.dropdown-menu').html(links);
+    };
+
     methods.getLocations = function (select, defaultOption) {
         base.makeApiCall('default/location/view', {
         }, function(result) {
@@ -121,6 +138,18 @@ Inventory.prototype.modules.home = function (base, index) {
             $('#item-images').html(html);
         });
     };
+
+    methods.getLocationModules = function(locationId, div) {
+        base.makeApiCall('default/location/module', {
+            locationId: locationId
+        },
+        function(result) {
+            methods.populateLocationModules(
+                result.locationModules.locationModules,
+                div
+            );
+        });
+    }
 
     methods.deletePicture = function(itemImageId, itemId) {
         base.makeApiCall('default/image/delete', {
@@ -336,6 +365,7 @@ Inventory.prototype.modules.home = function (base, index) {
         $('#filter-locations').on('change select', function() {
             methods.getUnits($(this).val(), $('#filter-units'), false);
             methods.getItemTypes($(this).val(),$('#filter-item-type'), true);
+            methods.getLocationModules($(this).val(), $('#location-modules'));
             methods.setLocationText();
         });
 
