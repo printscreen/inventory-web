@@ -11,7 +11,6 @@ Inventory.prototype.modules.admin = function (base, index) {
                     + val.name +
                 '</option>';
         });
-        console.log('hERE!');
         select.html(options);
     };
 
