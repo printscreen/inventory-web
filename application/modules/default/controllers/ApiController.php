@@ -29,7 +29,13 @@ class ApiController extends Zend_Controller_Action
         $response = $client->request();
         $this->_helper->layout->disableLayout();
         $this->_helper->viewRenderer->setNoRender(TRUE);
-        header('Content-type: text/json');
+        $ct = $this->getRequest()->getHeader('Content-Type');
+        if($ct == 'application/json' || $ct == 'text/json') {
+            header('Content-type: text/json');
+        } else {
+            header('Content-type: text/html');
+        }
+
         echo $response->getBody();
     }
 }

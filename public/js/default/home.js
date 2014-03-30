@@ -331,9 +331,14 @@ Inventory.prototype.modules.home = function (base, index) {
                 return true;
             },
             autoSubmit: false,
-            responseType: 'json',
+            responseType: 'html',
             timeout: 300,
             onComplete: function(file, response) {
+                try {
+                    response = $.parseJSON(response);
+                } catch (e) {
+                    return;
+                }
                 if(response.success) {
                     $('#picture-modal').modal('hide');
                     methods.getPictures(itemId);
