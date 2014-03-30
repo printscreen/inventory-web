@@ -272,16 +272,18 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         methods.form();
         methods.getLocations(
             null,
-            true,
+            false,
             $('#filter-locations, #default-user-location select'),
             true
         );
         $('#filter-locations').change(function() {
-           locationId = parseInt($(this).val()) || null;
-           $('#add-unit, #customer-units-tab').toggle(locationId !== null);
-           $('#locations table.users tbody').html('');
-           $('#assign-customer').toggle(false);
-           methods.getUnits();
+            locationId = parseInt($(this).val()) || null;
+            $('#add-unit, #customer-units-tab').toggle(locationId !== null);
+            $('#locations table.users tbody').html('');
+            $('#assign-customer').toggle(false);
+            if(locationId !== null) {
+                methods.getUnits();
+            }
         }).trigger('change');
         $('#unit-search').change(function() {
             var unitId = $(this).val();
@@ -295,12 +297,12 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
             methods.showForm($(this).data('unit-id'));
         });
         $('.users tbody').on('click', 'tr', function() {
-           var span = $(this).find('.edit-unit-users'),
-               visible = span.is(':visible');
-           $('.edit-unit-users').hide();
-           if(!visible) {
-               span.fadeToggle(visible);
-           }
+            var span = $(this).find('.edit-unit-users'),
+                visible = span.is(':visible');
+            $('.edit-unit-users').hide();
+            if(!visible) {
+                span.fadeToggle(visible);
+            }
         });
         $('.users tbody').on('click', '.edit-unit-users a', function (e) {
             e.stopPropagation();

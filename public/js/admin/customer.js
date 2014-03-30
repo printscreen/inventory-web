@@ -194,9 +194,11 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
            methods.getCustomers();
         });
         $('.users tbody').on('click', 'tr', function() {
+            $('select[name="locationId"]').closest('.form-group').hide();
             methods.showForm($(this).data('user-id'));
         });
         $('#add-user').click(function(){
+            $('select[name="locationId"]').closest('.form-group').show();
             methods.showForm('');
         });
         $('#submit-form').click(function(){
