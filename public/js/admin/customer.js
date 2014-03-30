@@ -184,7 +184,7 @@ Inventory.prototype.modules.adminCustomer = function (base, index) {
         methods.getCustomers();
         methods.getLocations(
             null,
-            true,
+            false,
             $('.locations, #default-user-location select'),
             true
         );
